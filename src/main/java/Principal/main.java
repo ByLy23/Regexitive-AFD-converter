@@ -11,6 +11,10 @@ package Principal;
  */
 public class main {
     public static void main(String[] args){
-        System.out.println("Hola que pez");
+        try{
+            new Inicio().setVisible(true);
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
     }
 }
