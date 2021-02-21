@@ -1,0 +1,41 @@
+/*
+* Analizador
+* Byron Orellana (el ByLy)
+*/
+
+
+package Analizador;
+import java_cup.runtime.Symbol;
+
+
+%%
+%class Lexico
+%public
+%line
+%char
+%cup
+%unicode
+%ignorecase
+
+
+%init{
+    yyline=1;
+    yychar=1;
+%init}
+
+comentarioSimple= "//" [^\r\n]* [^\r\n]
+comentarioMultilinea= "<!" [^/] ~"!>"
+entero=[0-9]+
+enteroN="-" [0-9]+
+letra= [a-zA-ZÑñáéíúó]+
+expresion= [\"] [^\"]* [\"\n]
+identificador= {letra}({letra}|{entero}|"_")*
+caracter=[^]~[^]
+espacio = \t|\f|" "|\r|\n
+expresionVariable= "{" [^/]+ ~"}"
+reservadaConjunto= "CONJ"
+separador= "%%"
+saltoLinea="\\" "n"
+comillaSimple="\\" "\'"
+comillaDoble="\\" "\""
+asignador= "-" ">"
