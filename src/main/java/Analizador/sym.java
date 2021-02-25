@@ -8,37 +8,53 @@ package Analizador;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int DECIMAL = 12;
-  public static final int MENOS = 8;
-  public static final int CORIZQ = 5;
-  public static final int UMENOS = 13;
-  public static final int ENTERO = 11;
-  public static final int POR = 9;
-  public static final int CORDER = 6;
-  public static final int PTCOMA = 2;
-  public static final int DIVIDIDO = 10;
+  public static final int INTERROGACION = 13;
+  public static final int CADENA = 21;
+  public static final int CONCATENACION = 9;
+  public static final int ASIGNADOR = 6;
+  public static final int DOSPUNTOS = 5;
+  public static final int CONJCOMAS = 20;
+  public static final int CONJCAR = 19;
+  public static final int RESCONJ = 3;
+  public static final int CONJUNTOEXP = 22;
+  public static final int SEPARADOR = 7;
+  public static final int COMA = 8;
+  public static final int COMILLASIMPLE = 15;
   public static final int EOF = 0;
-  public static final int MAS = 7;
-  public static final int PARIZQ = 3;
+  public static final int LLAVEABIERTA = 4;
+  public static final int CERRADURAKLEENE = 11;
+  public static final int DISYUNCION = 10;
+  public static final int COMILLADOBLE = 16;
   public static final int error = 1;
-  public static final int PARDER = 4;
-  public static final int REVALUAR = 14;
+  public static final int IDENTIFICADOR = 18;
+  public static final int SALTOLINEA = 14;
+  public static final int CERRADURAPOSITIVA = 12;
+  public static final int LLAVECERRADA = 17;
+  public static final int PTCOMA = 2;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "PTCOMA",
-  "PARIZQ",
-  "PARDER",
-  "CORIZQ",
-  "CORDER",
-  "MAS",
-  "MENOS",
-  "POR",
-  "DIVIDIDO",
-  "ENTERO",
-  "DECIMAL",
-  "UMENOS",
-  "REVALUAR"
+  "RESCONJ",
+  "LLAVEABIERTA",
+  "DOSPUNTOS",
+  "ASIGNADOR",
+  "SEPARADOR",
+  "COMA",
+  "CONCATENACION",
+  "DISYUNCION",
+  "CERRADURAKLEENE",
+  "CERRADURAPOSITIVA",
+  "INTERROGACION",
+  "SALTOLINEA",
+  "COMILLASIMPLE",
+  "COMILLADOBLE",
+  "LLAVECERRADA",
+  "IDENTIFICADOR",
+  "CONJCAR",
+  "CONJCOMAS",
+  "CADENA",
+  "CONJUNTOEXP"
   };
 }
 

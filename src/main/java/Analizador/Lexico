@@ -5,8 +5,8 @@
 
 
 package Analizador;
-import java_cup.runtime.Symbol;
-
+import java_cup.runtime.Symbol; 
+import java.util.ArrayList;
 
 %%
 %class Lexico
@@ -28,14 +28,47 @@ comentarioMultilinea= "<!" [^/] ~"!>"
 entero=[0-9]+
 enteroN="-" [0-9]+
 letra= [a-zA-ZÑñáéíúó]+
-expresion= [\"] [^\"]* [\"\n]
+cadena= [\"] ([^\"\n])* [\"]
 identificador= {letra}({letra}|{entero}|"_")*
-caracter=[^]~[^]
-espacio = \t|\f|" "|\r|\n
-expresionVariable= "{" [^/]+ ~"}"
-reservadaConjunto= "CONJ"
-separador= "%%"
-saltoLinea="\\" "n"
-comillaSimple="\\" "\'"
-comillaDoble="\\" "\""
-asignador= "-" ">"
+caracter=([^\t\n\r ])
+conjuntoCaracteres={caracter}({blanco})*"~"({blanco})*{caracter}
+conjuntoCaracteresComa={caracter}(","{caracter})*
+blanco= [ \r\t]+
+expresionVariable= "{"{identificador}"}"
+
+
+%%
+
+<YYINITIAL>{
+    {comentarioSimple} {}
+    {comentarioMultilinea} {}
+    {blanco} {}
+    ";" {return new Symbol(sym.PTCOMA,yyline,yychar, yytext());}
+    "CONJ" {return new Symbol(sym.RESCONJ,yyline,yychar, yytext());}
+    "{" {return new Symbol(sym.LLAVEABIERTA,yyline,yychar, yytext());}
+    ":" {return new Symbol(sym.DOSPUNTOS,yyline,yychar, yytext());}
+    "->" {return new Symbol(sym.ASIGNADOR,yyline,yychar, yytext());}
+    "%%" {return new Symbol(sym.SEPARADOR,yyline,yychar, yytext());}
+    "," {return new Symbol(sym.COMA,yyline,yychar, yytext());}
+    "." {return new Symbol(sym.CONCATENACION,yyline,yychar, yytext());}
+    "|" {return new Symbol(sym.DISYUNCION,yyline,yychar, yytext());}
+    "*" {return new Symbol(sym.CERRADURAKLEENE,yyline,yychar, yytext());}
+    "+" {return new Symbol(sym.CERRADURAPOSITIVA,yyline,yychar, yytext());}
+    "?" {return new Symbol(sym.INTERROGACION,yyline,yychar, yytext());}
+    "//n" {return new Symbol(sym.SALTOLINEA,yyline,yychar, yytext());}
+    "///'" {return new Symbol(sym.COMILLASIMPLE,yyline,yychar, yytext());}
+    ///" {return new Symbol(sym.COMILLADOBLE,yyline,yychar, yytext());}
+    "}" {return new Symbol(sym.LLAVECERRADA,yyline,yychar, yytext());}
+   
+    {identificador} {return new Symbol(sym.IDENTIFICADOR,yyline,yychar, yytext());}
+    {conjuntoCaracteres} {return new Symbol(sym.CONJCAR,yyline,yychar, yytext());}
+    {conjuntoCaracteresComa} {return new Symbol(sym.CONJCOMAS,yyline,yychar, yytext());}
+    {cadena} {return new Symbol(sym.CADENA,yyline,yychar, yytext());}
+    {expresionVariable} {return new Symbol(sym.CONJUNTOEXP,yyline,yychar, yytext());}
+
+     \n {yychar=1;}
+
+    . {
+        System.out.println("Este es un error lexico: "+yytext()+", en la linea: "+yyline+", en la columna: "+yychar);
+    }
+}

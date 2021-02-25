@@ -5,6 +5,29 @@
     <artifactId>Proyecto1_201700733</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+  <build>
+     <plugins>
+      <plugin>
+        <groupId>de.jflex</groupId>
+        <artifactId>jflex-maven-plugin</artifactId>
+        <version>1.8.2</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+    <dependencies>
+        <dependency>
+            <groupId>jav</groupId>
+            <artifactId>jab</artifactId>
+            <version>1</version>
+        </dependency>
+    </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>

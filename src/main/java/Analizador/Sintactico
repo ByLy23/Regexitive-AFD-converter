@@ -1,0 +1,91 @@
+/*
+* Analizador
+* Byron Orellana (el ByLy)
+*/
+package Analizador;
+import java_cup.runtime.*; 
+import java.util.ArrayList;
+
+parser code 
+{:
+    public ArrayList<ArrayList> Expresiones;
+  public void errorSintactico(Symbol s){
+      System.out.println("Error Sintactico en linea: "+s.left+ " Columna: "+s.right+" Error: "+s.value+" "+s.sym);
+    }
+  
+  public void errorIrrecuperable(Symbol s) throws java.lang.Exception{
+      System.out.println("Error sintactico sin posibilidad a reparacion en la linea: "+s.left+" Columna: "+s.right+" Error: "+s.value+" nno reconocido");
+  }
+:} 
+
+terminal String PTCOMA;
+terminal String RESCONJ;
+terminal String LLAVEABIERTA;
+terminal String DOSPUNTOS;
+terminal String ASIGNADOR;
+terminal String SEPARADOR;
+terminal String COMA;
+terminal String CONCATENACION;
+terminal String DISYUNCION;
+terminal String CERRADURAKLEENE;
+terminal String CERRADURAPOSITIVA;
+terminal String INTERROGACION;
+terminal String SALTOLINEA;
+terminal String COMILLASIMPLE;
+terminal String COMILLADOBLE;
+terminal String LLAVECERRADA;
+terminal String IDENTIFICADOR;
+terminal String CONJCAR;
+terminal String CONJCOMAS;
+terminal String CADENA;
+terminal String CONJUNTOEXP;
+
+non terminal ini;
+non terminal instrucciones;
+non terminal ArrayList contenido;
+non terminal ArrayList conjuntos;
+non terminal ArrayList validaciones;
+non terminal ArrayList expresiones;
+non terminal conjunto;
+non terminal expresion;
+non terminal validacion;
+non terminal tipoConjunto;
+non terminal expReg;
+
+start with ini;
+
+ini::= instrucciones;
+
+instrucciones::= LLAVEABIERTA contenido LLAVECERRADA;
+
+contenido::= conjuntos expresiones SEPARADOR SEPARADOR validaciones;
+
+conjuntos::= conjuntos conjunto
+| conjunto;
+
+expresiones::= expresiones expresion
+| expresion;
+
+validaciones::= validaciones validacion
+| validacion;
+
+conjunto::= RESCONJ DOSPUNTOS IDENTIFICADOR ASIGNADOR tipoConjunto PTCOMA;
+
+expresion::= IDENTIFICADOR ASIGNADOR expReg PTCOMA;
+
+validacion::= IDENTIFICADOR DOSPUNTOS CADENA PTCOMA;
+
+tipoConjunto::= CONJCOMAS
+|CONJCAR;
+
+expReg::= CERRADURAKLEENE expReg 
+| CONCATENACION expReg:e1 expReg:e2  {:RESULT = "AND(" + e1 + ", " + e2 + ")";:}
+| DISYUNCION expReg expReg
+| CERRADURAPOSITIVA expReg
+| INTERROGACION expReg
+| SALTOLINEA
+| COMILLASIMPLE
+| COMILLADOBLE
+| CADENA
+| CONJUNTOEXP;
+
