@@ -5,10 +5,23 @@
 package Analizador;
 import java_cup.runtime.*; 
 import java.util.ArrayList;
+import Principal.*;
 
 parser code 
 {:
-    public ArrayList<ArrayList> Expresiones;
+
+    /*
+    clase nodo que va a tener lista de siguientes, lista de ultimos, si es hoja, el lexema, el tipo
+clase arbol que va a tener nodo izquierdo y derecho y que va a actuar como ramificacion
+clase expresion que va a guardar el arbol, y el identificador de la expresion
+clae conjunto que va a guardar el nombre del conjunto, la lista de conjuntos y ya creo xD
+
+*/
+
+
+    public ArrayList<Expresion> Expresiones= new ArrayList<>();
+    public ArrayList<Nodo> listaNodos= new ArrayList<>();
+Expresion exp;
   public void errorSintactico(Symbol s){
       System.out.println("Error Sintactico en linea: "+s.left+ " Columna: "+s.right+" Error: "+s.value+" "+s.sym);
     }
@@ -50,7 +63,7 @@ non terminal conjunto;
 non terminal expresion;
 non terminal validacion;
 non terminal tipoConjunto;
-non terminal expReg;
+non terminal ArrayList expReg;
 
 start with ini;
 
@@ -63,29 +76,31 @@ contenido::= conjuntos expresiones SEPARADOR SEPARADOR validaciones;
 conjuntos::= conjuntos conjunto
 | conjunto;
 
-expresiones::= expresiones expresion
-| expresion;
+expresiones::= expresiones expresion {:listaNodos=new ArrayList<>();:}
+| expresion {:listaNodos=new ArrayList<>();:}
+; 
 
 validaciones::= validaciones validacion
 | validacion;
 
 conjunto::= RESCONJ DOSPUNTOS IDENTIFICADOR ASIGNADOR tipoConjunto PTCOMA;
 
-expresion::= IDENTIFICADOR ASIGNADOR expReg PTCOMA;
+expresion::= IDENTIFICADOR:a ASIGNADOR expReg:b PTCOMA {:Expresiones.add(new Expresion(a,listaNodos));System.out.println(Expresiones.get(0).getListaNodos().get(0).getLexema());main.principio.setListaExpresiones(Expresiones);:};
 
 validacion::= IDENTIFICADOR DOSPUNTOS CADENA PTCOMA;
 
 tipoConjunto::= CONJCOMAS
 |CONJCAR;
 
-expReg::= CERRADURAKLEENE expReg 
-| CONCATENACION expReg:e1 expReg:e2  {:RESULT = "AND(" + e1 + ", " + e2 + ")";:}
-| DISYUNCION expReg expReg
-| CERRADURAPOSITIVA expReg
-| INTERROGACION expReg
-| SALTOLINEA
-| COMILLASIMPLE
-| COMILLADOBLE
-| CADENA
-| CONJUNTOEXP;
+expReg::= CERRADURAKLEENE:a expReg:e1  {:RESULT= e1;RESULT.add(new Nodo("*","CERRADKLN"));listaNodos.add(new Nodo(a,"CERRADKLN"));:}
+| CONCATENACION:a expReg:e1 expReg:e2  {:RESULT= e1; RESULT.addAll(e2);RESULT.add(new Nodo(".","CONCA"));listaNodos.add(new Nodo(a,"CONCA"));:}
+| DISYUNCION expReg:e1 expReg:e2  {:RESULT= e1; RESULT.addAll(e2);RESULT.add(new Nodo("|","DISYUNC"));listaNodos.add(new Nodo("|","DISYUNC"));:}
+| CERRADURAPOSITIVA expReg:e1 {:RESULT= e1; RESULT.add(new Nodo("+","CERRADPOS"));listaNodos.add(new Nodo("+","CERRADPOS"));:}
+| INTERROGACION expReg:e1 {:RESULT= e1; RESULT.add(new Nodo("?","INTERROG"));listaNodos.add(new Nodo("?","INTERROG"));:}
+| SALTOLINEA:e {:RESULT= new ArrayList(); RESULT.add(new Nodo(e,"LEXEMA"));listaNodos.add(new Nodo(e,"LEXEMA"));:}
+| COMILLASIMPLE:e {:RESULT= new ArrayList(); RESULT.add(new Nodo(e,"COMILLASIMPLE"));listaNodos.add(new Nodo(e,"LEXEMA"));:}
+| COMILLADOBLE:e {:RESULT= new ArrayList(); RESULT.add(new Nodo(e,"COMILLADOBLE"));listaNodos.add(new Nodo(e,"LEXEMA"));:}
+| CADENA:e {:RESULT= new ArrayList(); RESULT.add(new Nodo(e,"CADENA"));listaNodos.add(new Nodo(e,"LEXEMA"));:}
+| CONJUNTOEXP:e {:RESULT= new ArrayList(); RESULT.add(new Nodo(e,"CONJEXP"));listaNodos.add(new Nodo(e,"LEXEMA"));:}
+;
 

@@ -7,6 +7,7 @@ package Analizador;
 
 import java_cup.runtime.*;
 import java.util.ArrayList;
+import Principal.*;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -165,7 +166,19 @@ public class Sintactico extends java_cup.runtime.lr_parser {
 
 
 
-    public ArrayList<ArrayList> Expresiones;
+
+    /*
+    clase nodo que va a tener lista de siguientes, lista de ultimos, si es hoja, el lexema, el tipo
+clase arbol que va a tener nodo izquierdo y derecho y que va a actuar como ramificacion
+clase expresion que va a guardar el arbol, y el identificador de la expresion
+clae conjunto que va a guardar el nombre del conjunto, la lista de conjuntos y ya creo xD
+
+*/
+
+
+    public ArrayList<Expresion> Expresiones= new ArrayList<>();
+    public ArrayList<Nodo> listaNodos= new ArrayList<>();
+Expresion exp;
   public void errorSintactico(Symbol s){
       System.out.println("Error Sintactico en linea: "+s.left+ " Columna: "+s.right+" Error: "+s.value+" "+s.sym);
     }
@@ -262,7 +275,7 @@ class CUP$Sintactico$actions {
           case 6: // expresiones ::= expresiones expresion 
             {
               ArrayList RESULT =null;
-
+		listaNodos=new ArrayList<>();
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expresiones",5, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -271,7 +284,7 @@ class CUP$Sintactico$actions {
           case 7: // expresiones ::= expresion 
             {
               ArrayList RESULT =null;
-
+		listaNodos=new ArrayList<>();
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expresiones",5, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -307,7 +320,14 @@ class CUP$Sintactico$actions {
           case 11: // expresion ::= IDENTIFICADOR ASIGNADOR expReg PTCOMA 
             {
               Object RESULT =null;
-
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		ArrayList b = (ArrayList)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		Expresiones.add(new Expresion(a,listaNodos));
+                System.out.println(Expresiones.get(0).getListaNodos().get(0).getLexema());
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expresion",7, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -342,8 +362,14 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 15: // expReg ::= CERRADURAKLEENE expReg 
             {
-              Object RESULT =null;
-
+              ArrayList RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		int e1left = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		ArrayList e1 = (ArrayList)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		RESULT= e1;RESULT.add(new Nodo("*","CERRADKLN"));listaNodos.add(new Nodo(a,"CERRADKLN"));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expReg",10, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -351,14 +377,17 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 16: // expReg ::= CONCATENACION expReg expReg 
             {
-              Object RESULT =null;
+              ArrayList RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).value;
 		int e1left = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
 		int e1right = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
-		Object e1 = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		ArrayList e1 = (ArrayList)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
 		int e2left = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
-		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
-		RESULT = "AND(" + e1 + ", " + e2 + ")";
+		ArrayList e2 = (ArrayList)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		RESULT= e1; RESULT.addAll(e2);RESULT.add(new Nodo(".","CONCA"));listaNodos.add(new Nodo(a,"CONCA"));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expReg",10, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -366,8 +395,14 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 17: // expReg ::= DISYUNCION expReg expReg 
             {
-              Object RESULT =null;
-
+              ArrayList RESULT =null;
+		int e1left = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		ArrayList e1 = (ArrayList)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		int e2left = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int e2right = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		ArrayList e2 = (ArrayList)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		RESULT= e1; RESULT.addAll(e2);RESULT.add(new Nodo("|","DISYUNC"));listaNodos.add(new Nodo("|","DISYUNC"));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expReg",10, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -375,8 +410,11 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 18: // expReg ::= CERRADURAPOSITIVA expReg 
             {
-              Object RESULT =null;
-
+              ArrayList RESULT =null;
+		int e1left = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		ArrayList e1 = (ArrayList)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		RESULT= e1; RESULT.add(new Nodo("+","CERRADPOS"));listaNodos.add(new Nodo("+","CERRADPOS"));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expReg",10, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -384,8 +422,11 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 19: // expReg ::= INTERROGACION expReg 
             {
-              Object RESULT =null;
-
+              ArrayList RESULT =null;
+		int e1left = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int e1right = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		ArrayList e1 = (ArrayList)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		RESULT= e1; RESULT.add(new Nodo("?","INTERROG"));listaNodos.add(new Nodo("?","INTERROG"));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expReg",10, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -393,8 +434,11 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 20: // expReg ::= SALTOLINEA 
             {
-              Object RESULT =null;
-
+              ArrayList RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		RESULT= new ArrayList(); RESULT.add(new Nodo(e,"LEXEMA"));listaNodos.add(new Nodo(e,"LEXEMA"));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expReg",10, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -402,8 +446,11 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 21: // expReg ::= COMILLASIMPLE 
             {
-              Object RESULT =null;
-
+              ArrayList RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		RESULT= new ArrayList(); RESULT.add(new Nodo(e,"COMILLASIMPLE"));listaNodos.add(new Nodo(e,"LEXEMA"));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expReg",10, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -411,8 +458,11 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 22: // expReg ::= COMILLADOBLE 
             {
-              Object RESULT =null;
-
+              ArrayList RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		RESULT= new ArrayList(); RESULT.add(new Nodo(e,"COMILLADOBLE"));listaNodos.add(new Nodo(e,"LEXEMA"));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expReg",10, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -420,8 +470,11 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 23: // expReg ::= CADENA 
             {
-              Object RESULT =null;
-
+              ArrayList RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		RESULT= new ArrayList(); RESULT.add(new Nodo(e,"CADENA"));listaNodos.add(new Nodo(e,"LEXEMA"));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expReg",10, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -429,8 +482,11 @@ class CUP$Sintactico$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 24: // expReg ::= CONJUNTOEXP 
             {
-              Object RESULT =null;
-
+              ArrayList RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		String e = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		RESULT= new ArrayList(); RESULT.add(new Nodo(e,"CONJEXP"));listaNodos.add(new Nodo(e,"LEXEMA"));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expReg",10, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;

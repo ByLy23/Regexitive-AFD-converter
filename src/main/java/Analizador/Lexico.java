@@ -9,6 +9,8 @@
 package Analizador;
 import java_cup.runtime.Symbol; 
 import java.util.ArrayList;
+import Principal.Token;
+import Principal.main;
 
 
 /**
@@ -42,13 +44,13 @@ public class Lexico implements java_cup.runtime.Scanner {
    */
   private static final String ZZ_CMAP_PACKED = 
     "\11\0\1\13\1\12\1\0\1\0\1\2\22\0\1\13\1\4\1\11"+
-    "\2\0\1\26\1\0\1\0\2\0\1\31\1\32\1\15\1\7\1\27"+
+    "\2\0\1\26\1\0\1\35\2\0\1\31\1\32\1\15\1\7\1\27"+
     "\1\1\12\6\1\25\1\20\1\3\1\0\1\5\1\33\1\0\2\10"+
-    "\1\21\6\10\1\24\3\10\1\23\1\22\13\10\4\0\1\6\1\0"+
-    "\2\10\1\21\6\10\1\24\3\10\1\23\1\22\13\10\1\16\1\30"+
-    "\1\17\1\14\6\0\1\0\113\0\1\10\17\0\1\10\7\0\1\10"+
-    "\3\0\1\10\3\0\1\10\1\0\1\10\6\0\1\10\u1f2d\0\1\0"+
-    "\1\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
+    "\1\21\6\10\1\24\3\10\1\23\1\22\13\10\1\0\1\34\2\0"+
+    "\1\6\1\0\2\10\1\21\6\10\1\24\3\10\1\23\1\22\13\10"+
+    "\1\16\1\30\1\17\1\14\6\0\1\0\113\0\1\10\17\0\1\10"+
+    "\7\0\1\10\3\0\1\10\3\0\1\10\1\0\1\10\6\0\1\10"+
+    "\u1f2d\0\1\0\1\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
 
   /** 
    * Translates characters to character classes
@@ -63,12 +65,13 @@ public class Lexico implements java_cup.runtime.Scanner {
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\0\2\1\1\2\2\1\1\3\1\1\1\4\1\5"+
     "\1\6\1\7\1\10\1\3\1\11\1\1\1\12\1\13"+
-    "\1\14\1\15\1\16\5\0\1\17\1\3\2\0\1\20"+
-    "\3\0\1\3\1\21\1\22\1\1\1\2\1\0\1\22"+
-    "\1\1\1\23\1\3\1\0\1\24\1\2";
+    "\1\14\1\15\1\16\1\1\6\0\1\17\1\3\2\0"+
+    "\1\20\3\0\1\3\1\21\1\22\1\23\1\24\1\25"+
+    "\1\1\1\2\1\0\1\25\1\1\1\26\1\3\1\0"+
+    "\1\27\1\2";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[47];
+    int [] result = new int[52];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -93,15 +96,16 @@ public class Lexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\34\0\70\0\124\0\160\0\214\0\250\0\304"+
-    "\0\340\0\34\0\374\0\34\0\34\0\u0118\0\34\0\u0134"+
-    "\0\34\0\34\0\34\0\34\0\34\0\u0150\0\u016c\0\u0188"+
-    "\0\u01a4\0\u01c0\0\340\0\u01dc\0\u01f8\0\u0214\0\340\0\u0230"+
-    "\0\u024c\0\u0268\0\u0284\0\340\0\340\0\u02a0\0\u01a4\0\u02bc"+
-    "\0\u01f8\0\u02d8\0\340\0\u02f4\0\u0310\0\u01dc\0\340";
+    "\0\0\0\36\0\74\0\132\0\170\0\226\0\264\0\322"+
+    "\0\360\0\36\0\u010e\0\36\0\36\0\u012c\0\36\0\u014a"+
+    "\0\36\0\36\0\36\0\36\0\36\0\u0168\0\u0186\0\u01a4"+
+    "\0\u01c2\0\u01e0\0\u01fe\0\u021c\0\360\0\u023a\0\u0258\0\u0276"+
+    "\0\360\0\u0294\0\u02b2\0\u02d0\0\u02ee\0\360\0\360\0\360"+
+    "\0\360\0\360\0\u030c\0\u01e0\0\u032a\0\u0258\0\u0348\0\360"+
+    "\0\u0366\0\u0384\0\u023a\0\360";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[47];
+    int [] result = new int[52];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -127,32 +131,35 @@ public class Lexico implements java_cup.runtime.Scanner {
     "\1\2\1\3\1\4\1\5\3\2\1\6\1\7\1\10"+
     "\1\11\1\4\1\2\1\12\1\13\1\14\1\15\1\16"+
     "\3\7\1\17\1\20\1\21\1\22\1\23\1\24\1\25"+
-    "\2\0\1\26\10\0\1\26\1\27\1\30\17\0\1\31"+
-    "\1\26\10\0\1\26\1\27\1\30\20\0\1\4\10\0"+
-    "\1\4\22\0\1\26\1\0\1\32\6\0\1\26\1\27"+
-    "\1\30\20\0\1\26\2\0\1\33\5\0\1\26\1\27"+
-    "\1\30\20\0\1\26\3\0\1\34\1\0\1\34\2\0"+
-    "\1\26\1\27\1\30\3\0\4\34\7\0\2\35\1\36"+
-    "\6\35\1\37\1\0\1\36\1\40\1\41\16\35\36\0"+
-    "\1\26\5\0\1\42\2\0\1\26\1\27\1\30\3\0"+
-    "\4\42\11\0\1\26\3\0\1\34\1\0\1\34\2\0"+
-    "\1\26\1\27\1\30\3\0\1\34\1\43\2\34\11\0"+
-    "\1\26\10\0\1\26\1\27\1\30\10\0\1\44\7\0"+
-    "\1\26\10\0\1\26\1\27\17\0\2\45\1\27\7\45"+
-    "\1\0\1\27\20\45\2\46\1\0\7\46\2\0\20\46"+
-    "\2\47\1\0\7\47\1\0\21\47\1\50\1\0\32\50"+
-    "\6\0\1\34\1\0\1\34\10\0\4\34\7\0\11\35"+
-    "\1\37\1\0\23\35\1\36\6\35\1\37\1\0\1\36"+
-    "\1\40\17\35\2\51\1\40\6\51\1\45\1\0\1\40"+
-    "\20\51\2\52\1\35\6\52\1\46\1\0\1\35\20\52"+
-    "\6\0\1\42\1\0\1\42\6\0\1\53\1\0\4\42"+
-    "\15\0\1\34\1\0\1\34\10\0\2\34\1\54\1\34"+
-    "\24\0\1\30\16\0\4\50\1\55\27\50\11\35\1\37"+
-    "\1\0\2\35\1\41\16\35\6\0\1\34\1\0\1\34"+
-    "\10\0\3\34\1\56\7\0\4\50\1\55\1\57\26\50";
+    "\1\26\1\2\2\0\1\27\10\0\1\27\1\30\1\31"+
+    "\21\0\1\32\1\27\10\0\1\27\1\30\1\31\22\0"+
+    "\1\4\10\0\1\4\24\0\1\27\1\0\1\33\6\0"+
+    "\1\27\1\30\1\31\22\0\1\34\2\0\1\35\5\0"+
+    "\1\34\1\30\1\31\22\0\1\27\3\0\1\36\1\0"+
+    "\1\36\2\0\1\27\1\30\1\31\3\0\4\36\11\0"+
+    "\2\37\1\40\6\37\1\41\1\0\1\40\1\42\1\43"+
+    "\20\37\40\0\1\27\5\0\1\44\2\0\1\27\1\30"+
+    "\1\31\3\0\4\44\13\0\1\27\3\0\1\36\1\0"+
+    "\1\36\2\0\1\27\1\30\1\31\3\0\1\36\1\45"+
+    "\2\36\13\0\1\27\10\0\1\27\1\30\1\31\10\0"+
+    "\1\46\11\0\1\27\6\0\1\47\1\0\1\27\1\30"+
+    "\1\31\5\0\1\50\11\0\1\51\2\0\1\27\10\0"+
+    "\1\27\1\30\21\0\2\52\1\30\7\52\1\0\1\30"+
+    "\22\52\2\53\1\0\7\53\2\0\22\53\2\54\1\0"+
+    "\7\54\1\0\23\54\1\55\1\0\34\55\2\0\1\34"+
+    "\2\0\1\35\5\0\1\34\1\30\27\0\1\36\1\0"+
+    "\1\36\10\0\4\36\11\0\11\37\1\41\1\0\25\37"+
+    "\1\40\6\37\1\41\1\0\1\40\1\42\21\37\2\56"+
+    "\1\42\6\56\1\52\1\0\1\42\22\56\2\57\1\37"+
+    "\6\57\1\53\1\0\1\37\22\57\6\0\1\44\1\0"+
+    "\1\44\6\0\1\60\1\0\4\44\17\0\1\36\1\0"+
+    "\1\36\10\0\2\36\1\61\1\36\26\0\1\31\20\0"+
+    "\4\55\1\62\31\55\11\37\1\41\1\0\2\37\1\43"+
+    "\20\37\6\0\1\36\1\0\1\36\10\0\3\36\1\63"+
+    "\11\0\4\55\1\62\1\64\30\55";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[812];
+    int [] result = new int[930];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -190,12 +197,12 @@ public class Lexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\7\1\1\11\14\1\5\0\1\11\1\1\2\0"+
-    "\1\11\3\0\1\1\2\11\2\1\1\0\2\1\1\11"+
+    "\1\0\7\1\1\11\15\1\6\0\1\11\1\1\2\0"+
+    "\1\11\3\0\1\1\5\11\2\1\1\0\2\1\1\11"+
     "\1\1\1\0\1\1\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[47];
+    int [] result = new int[52];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -293,7 +300,7 @@ public class Lexico implements java_cup.runtime.Scanner {
     char [] map = new char[0x110000];
     int i = 0;  /* index in packed string  */
     int j = 0;  /* index in unpacked array */
-    while (i < 176) {
+    while (i < 180) {
       int  count = packed.charAt(i++);
       char value = packed.charAt(i++);
       do map[j++] = value; while (--count > 0);
@@ -655,105 +662,120 @@ public class Lexico implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { return new Symbol(sym.CONJCOMAS,yyline,yychar, yytext());
+            { Token aux=new Token(yytext(),"CONJCOMAS");main.principio.getListaTokens().add(aux);return new Symbol(sym.CONJCOMAS,yyline,yychar, yytext());
             } 
             // fall through
-          case 21: break;
+          case 24: break;
           case 2: 
             { 
             } 
             // fall through
-          case 22: break;
+          case 25: break;
           case 3: 
-            { return new Symbol(sym.IDENTIFICADOR,yyline,yychar, yytext());
+            { Token aux=new Token(yytext(),"IDENTIFICADOR");main.principio.getListaTokens().add(aux);return new Symbol(sym.IDENTIFICADOR,yyline,yychar, yytext());
             } 
             // fall through
-          case 23: break;
+          case 26: break;
           case 4: 
             { yychar=1;
             } 
             // fall through
-          case 24: break;
-          case 5: 
-            { return new Symbol(sym.COMA,yyline,yychar, yytext());
-            } 
-            // fall through
-          case 25: break;
-          case 6: 
-            { return new Symbol(sym.LLAVEABIERTA,yyline,yychar, yytext());
-            } 
-            // fall through
-          case 26: break;
-          case 7: 
-            { return new Symbol(sym.LLAVECERRADA,yyline,yychar, yytext());
-            } 
-            // fall through
           case 27: break;
-          case 8: 
-            { return new Symbol(sym.PTCOMA,yyline,yychar, yytext());
+          case 5: 
+            { Token aux=new Token(",","COMA");main.principio.getListaTokens().add(aux);return new Symbol(sym.COMA,yyline,yychar, yytext());
             } 
             // fall through
           case 28: break;
-          case 9: 
-            { return new Symbol(sym.DOSPUNTOS,yyline,yychar, yytext());
+          case 6: 
+            { Token aux=new Token("{","LLAVEABIERTA");main.principio.getListaTokens().add(aux);return new Symbol(sym.LLAVEABIERTA,yyline,yychar, yytext());
             } 
             // fall through
           case 29: break;
-          case 10: 
-            { return new Symbol(sym.CONCATENACION,yyline,yychar, yytext());
+          case 7: 
+            { Token aux=new Token("}","LLAVECERRADA");main.principio.getListaTokens().add(aux);return new Symbol(sym.LLAVECERRADA,yyline,yychar, yytext());
             } 
             // fall through
           case 30: break;
-          case 11: 
-            { return new Symbol(sym.DISYUNCION,yyline,yychar, yytext());
+          case 8: 
+            { Token aux=new Token(";","PTCOMA");main.principio.getListaTokens().add(aux);return new Symbol(sym.PTCOMA,yyline,yychar, yytext());
             } 
             // fall through
           case 31: break;
-          case 12: 
-            { return new Symbol(sym.CERRADURAKLEENE,yyline,yychar, yytext());
+          case 9: 
+            { Token aux=new Token(":","DOSPUNTOS");main.principio.getListaTokens().add(aux);return new Symbol(sym.DOSPUNTOS,yyline,yychar, yytext());
             } 
             // fall through
           case 32: break;
-          case 13: 
-            { return new Symbol(sym.CERRADURAPOSITIVA,yyline,yychar, yytext());
+          case 10: 
+            { Token aux=new Token(".","CONCATENACION");main.principio.getListaTokens().add(aux);return new Symbol(sym.CONCATENACION,yyline,yychar, yytext());
             } 
             // fall through
           case 33: break;
-          case 14: 
-            { return new Symbol(sym.INTERROGACION,yyline,yychar, yytext());
+          case 11: 
+            { Token aux=new Token("|","DISYUNCION");main.principio.getListaTokens().add(aux);return new Symbol(sym.DISYUNCION,yyline,yychar, yytext());
             } 
             // fall through
           case 34: break;
-          case 15: 
-            { return new Symbol(sym.ASIGNADOR,yyline,yychar, yytext());
+          case 12: 
+            { Token aux=new Token("*","CERRADURAKLEENE");main.principio.getListaTokens().add(aux);return new Symbol(sym.CERRADURAKLEENE,yyline,yychar, yytext());
             } 
             // fall through
           case 35: break;
-          case 16: 
-            { return new Symbol(sym.CADENA,yyline,yychar, yytext());
+          case 13: 
+            { Token aux=new Token("+","CERRADURAPOSITIVA");main.principio.getListaTokens().add(aux);return new Symbol(sym.CERRADURAPOSITIVA,yyline,yychar, yytext());
             } 
             // fall through
           case 36: break;
-          case 17: 
-            { return new Symbol(sym.SEPARADOR,yyline,yychar, yytext());
+          case 14: 
+            { Token aux=new Token("?","INTERROGACION");main.principio.getListaTokens().add(aux);return new Symbol(sym.INTERROGACION,yyline,yychar, yytext());
             } 
             // fall through
           case 37: break;
-          case 18: 
-            { return new Symbol(sym.CONJCAR,yyline,yychar, yytext());
+          case 15: 
+            { Token aux=new Token("->","ASIGNADOR");main.principio.getListaTokens().add(aux);return new Symbol(sym.ASIGNADOR,yyline,yychar, yytext());
             } 
             // fall through
           case 38: break;
-          case 19: 
-            { return new Symbol(sym.CONJUNTOEXP,yyline,yychar, yytext());
+          case 16: 
+            { Token aux=new Token(yytext(),"CADENA");main.principio.getListaTokens().add(aux);return new Symbol(sym.CADENA,yyline,yychar, yytext());
             } 
             // fall through
           case 39: break;
-          case 20: 
-            { return new Symbol(sym.RESCONJ,yyline,yychar, yytext());
+          case 17: 
+            { Token aux=new Token("%%","SEPARADOR");main.principio.getListaTokens().add(aux);return new Symbol(sym.SEPARADOR,yyline,yychar, yytext());
             } 
             // fall through
           case 40: break;
+          case 18: 
+            { Token aux=new Token("\\\"","COMILLADOBLE");main.principio.getListaTokens().add(aux);return new Symbol(sym.COMILLADOBLE,yyline,yychar, yytext());
+            } 
+            // fall through
+          case 41: break;
+          case 19: 
+            { Token aux=new Token("\\n","SALTOLINEA");main.principio.getListaTokens().add(aux);return new Symbol(sym.SALTOLINEA,yyline,yychar, yytext());
+            } 
+            // fall through
+          case 42: break;
+          case 20: 
+            { Token aux=new Token("\\\'","COMILLASIMPLE");main.principio.getListaTokens().add(aux);return new Symbol(sym.COMILLASIMPLE,yyline,yychar, yytext());
+            } 
+            // fall through
+          case 43: break;
+          case 21: 
+            { Token aux=new Token(yytext(),"CONJCAR");main.principio.getListaTokens().add(aux);return new Symbol(sym.CONJCAR,yyline,yychar, yytext());
+            } 
+            // fall through
+          case 44: break;
+          case 22: 
+            { Token aux=new Token(yytext(),"CONJUNTOEXP");main.principio.getListaTokens().add(aux);return new Symbol(sym.CONJUNTOEXP,yyline,yychar, yytext());
+            } 
+            // fall through
+          case 45: break;
+          case 23: 
+            { Token aux=new Token("CONJ","RESCONJ");main.principio.getListaTokens().add(aux);return new Symbol(sym.RESCONJ,yyline,yychar, yytext());
+            } 
+            // fall through
+          case 46: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

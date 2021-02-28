@@ -13,24 +13,13 @@ import java.io.FileReader;
  * @author byron
  */
 public class main {
+    public static General principio;
     public static void main(String[] args){
-        interprete("prueba.txt");
+        principio= new General();
         try{
             new Inicio().setVisible(true);
         }catch(Exception ex){
             System.out.println(ex);
-        }
-    }
-    private static void interprete(String path){
-        Analizador.Sintactico scanner;
-        Analizador.Lexico scn;
-        try {
-            scn=new Analizador.Lexico(new BufferedReader(new FileReader(path)));
-            scanner=  new Analizador.Sintactico(scn);
-            scanner.parse();
-        } catch (Exception ex) {
-            System.out.println("Error fatal en compilación de entrada.");
-            System.out.println("Causa: "+ex);
         }
     }
 }

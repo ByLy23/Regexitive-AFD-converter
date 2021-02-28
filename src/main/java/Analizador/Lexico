@@ -7,6 +7,8 @@
 package Analizador;
 import java_cup.runtime.Symbol; 
 import java.util.ArrayList;
+import Principal.Token;
+import Principal.main;
 
 %%
 %class Lexico
@@ -23,6 +25,7 @@ import java.util.ArrayList;
     yychar=1;
 %init}
 
+
 comentarioSimple= "//" [^\r\n]* [^\r\n]
 comentarioMultilinea= "<!" [^/] ~"!>"
 entero=[0-9]+
@@ -35,6 +38,7 @@ conjuntoCaracteres={caracter}({blanco})*"~"({blanco})*{caracter}
 conjuntoCaracteresComa={caracter}(","{caracter})*
 blanco= [ \r\t]+
 expresionVariable= "{"{identificador}"}"
+asignador= "-" ({blanco})* ">"
 
 
 %%
@@ -43,32 +47,32 @@ expresionVariable= "{"{identificador}"}"
     {comentarioSimple} {}
     {comentarioMultilinea} {}
     {blanco} {}
-    ";" {return new Symbol(sym.PTCOMA,yyline,yychar, yytext());}
-    "CONJ" {return new Symbol(sym.RESCONJ,yyline,yychar, yytext());}
-    "{" {return new Symbol(sym.LLAVEABIERTA,yyline,yychar, yytext());}
-    ":" {return new Symbol(sym.DOSPUNTOS,yyline,yychar, yytext());}
-    "->" {return new Symbol(sym.ASIGNADOR,yyline,yychar, yytext());}
-    "%%" {return new Symbol(sym.SEPARADOR,yyline,yychar, yytext());}
-    "," {return new Symbol(sym.COMA,yyline,yychar, yytext());}
-    "." {return new Symbol(sym.CONCATENACION,yyline,yychar, yytext());}
-    "|" {return new Symbol(sym.DISYUNCION,yyline,yychar, yytext());}
-    "*" {return new Symbol(sym.CERRADURAKLEENE,yyline,yychar, yytext());}
-    "+" {return new Symbol(sym.CERRADURAPOSITIVA,yyline,yychar, yytext());}
-    "?" {return new Symbol(sym.INTERROGACION,yyline,yychar, yytext());}
-    "//n" {return new Symbol(sym.SALTOLINEA,yyline,yychar, yytext());}
-    "///'" {return new Symbol(sym.COMILLASIMPLE,yyline,yychar, yytext());}
-    ///" {return new Symbol(sym.COMILLADOBLE,yyline,yychar, yytext());}
-    "}" {return new Symbol(sym.LLAVECERRADA,yyline,yychar, yytext());}
+    ";" {Token aux=new Token(";","PTCOMA");main.principio.getListaTokens().add(aux);return new Symbol(sym.PTCOMA,yyline,yychar, yytext());}
+    "CONJ" {Token aux=new Token("CONJ","RESCONJ");main.principio.getListaTokens().add(aux);return new Symbol(sym.RESCONJ,yyline,yychar, yytext());}
+    "{" {Token aux=new Token("{","LLAVEABIERTA");main.principio.getListaTokens().add(aux);return new Symbol(sym.LLAVEABIERTA,yyline,yychar, yytext());}
+    ":" {Token aux=new Token(":","DOSPUNTOS");main.principio.getListaTokens().add(aux);return new Symbol(sym.DOSPUNTOS,yyline,yychar, yytext());}
+    {asignador} {Token aux=new Token("->","ASIGNADOR");main.principio.getListaTokens().add(aux);return new Symbol(sym.ASIGNADOR,yyline,yychar, yytext());}
+    "%%" {Token aux=new Token("%%","SEPARADOR");main.principio.getListaTokens().add(aux);return new Symbol(sym.SEPARADOR,yyline,yychar, yytext());}
+    "," {Token aux=new Token(",","COMA");main.principio.getListaTokens().add(aux);return new Symbol(sym.COMA,yyline,yychar, yytext());}
+    "." {Token aux=new Token(".","CONCATENACION");main.principio.getListaTokens().add(aux);return new Symbol(sym.CONCATENACION,yyline,yychar, yytext());}
+    "|" {Token aux=new Token("|","DISYUNCION");main.principio.getListaTokens().add(aux);return new Symbol(sym.DISYUNCION,yyline,yychar, yytext());}
+    "*" {Token aux=new Token("*","CERRADURAKLEENE");main.principio.getListaTokens().add(aux);return new Symbol(sym.CERRADURAKLEENE,yyline,yychar, yytext());}
+    "+" {Token aux=new Token("+","CERRADURAPOSITIVA");main.principio.getListaTokens().add(aux);return new Symbol(sym.CERRADURAPOSITIVA,yyline,yychar, yytext());}
+    "?" {Token aux=new Token("?","INTERROGACION");main.principio.getListaTokens().add(aux);return new Symbol(sym.INTERROGACION,yyline,yychar, yytext());}
+    "\\n" {Token aux=new Token("\\n","SALTOLINEA");main.principio.getListaTokens().add(aux);return new Symbol(sym.SALTOLINEA,yyline,yychar, yytext());}
+    "\\\'" {Token aux=new Token("\\\'","COMILLASIMPLE");main.principio.getListaTokens().add(aux);return new Symbol(sym.COMILLASIMPLE,yyline,yychar, yytext());}
+    "\\\"" {Token aux=new Token("\\\"","COMILLADOBLE");main.principio.getListaTokens().add(aux);return new Symbol(sym.COMILLADOBLE,yyline,yychar, yytext());}
+    "}" {Token aux=new Token("}","LLAVECERRADA");main.principio.getListaTokens().add(aux);return new Symbol(sym.LLAVECERRADA,yyline,yychar, yytext());}
    
-    {identificador} {return new Symbol(sym.IDENTIFICADOR,yyline,yychar, yytext());}
-    {conjuntoCaracteres} {return new Symbol(sym.CONJCAR,yyline,yychar, yytext());}
-    {conjuntoCaracteresComa} {return new Symbol(sym.CONJCOMAS,yyline,yychar, yytext());}
-    {cadena} {return new Symbol(sym.CADENA,yyline,yychar, yytext());}
-    {expresionVariable} {return new Symbol(sym.CONJUNTOEXP,yyline,yychar, yytext());}
+    {identificador} {Token aux=new Token(yytext(),"IDENTIFICADOR");main.principio.getListaTokens().add(aux);return new Symbol(sym.IDENTIFICADOR,yyline,yychar, yytext());}
+    {conjuntoCaracteres} {Token aux=new Token(yytext(),"CONJCAR");main.principio.getListaTokens().add(aux);return new Symbol(sym.CONJCAR,yyline,yychar, yytext());}
+    {conjuntoCaracteresComa} {Token aux=new Token(yytext(),"CONJCOMAS");main.principio.getListaTokens().add(aux);return new Symbol(sym.CONJCOMAS,yyline,yychar, yytext());}
+    {cadena} {Token aux=new Token(yytext(),"CADENA");main.principio.getListaTokens().add(aux);return new Symbol(sym.CADENA,yyline,yychar, yytext());}
+    {expresionVariable} {Token aux=new Token(yytext(),"CONJUNTOEXP");main.principio.getListaTokens().add(aux);return new Symbol(sym.CONJUNTOEXP,yyline,yychar, yytext());}
 
      \n {yychar=1;}
 
     . {
-        System.out.println("Este es un error lexico: "+yytext()+", en la linea: "+yyline+", en la columna: "+yychar);
+        System.out.println("Este Token no pertenece al lenguaje: "+yytext()+", en la linea: "+yyline+", en la columna: "+yychar);
     }
 }
