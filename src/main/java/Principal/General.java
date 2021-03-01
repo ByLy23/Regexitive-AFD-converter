@@ -55,6 +55,10 @@ clae conjunto que va a guardar el nombre del conjunto, la lista de conjuntos y y
     
     public void generarArbol(){
         System.out.println("Estoy generandome awanta un casho");
+        for(Expresion itm:listaExpresiones){
+            System.out.println(itm.getNombreExpresion());
+            itm.generarArbol();
+        }
     }
     
 }

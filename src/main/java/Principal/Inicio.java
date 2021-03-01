@@ -331,15 +331,15 @@ public class Inicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
     interprete(area.getText());    
     for(Token itm:  main.principio.getListaTokens()){
         System.out.println(itm.getLexema()+" "+itm.getTipo());
     }
-    main.principio.generarArbol();
+    main.principio.generarArbol();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+
     // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 

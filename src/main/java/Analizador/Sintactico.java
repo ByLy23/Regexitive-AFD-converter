@@ -326,8 +326,7 @@ class CUP$Sintactico$actions {
 		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
 		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
 		ArrayList b = (ArrayList)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
-		Expresiones.add(new Expresion(a,listaNodos));
-                System.out.println(Expresiones.get(0).getListaNodos().get(0).getLexema());
+		Expresiones.add(new Expresion(a,listaNodos));System.out.println(Expresiones.get(0).getListaNodos().get(0).getLexema());main.principio.getListaExpresiones().add(new Expresion(a,listaNodos));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expresion",7, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;

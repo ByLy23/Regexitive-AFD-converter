@@ -12,15 +12,15 @@ import java.util.ArrayList;
  * @author byron
  */
 public class Nodo {
-    Nodo izquierdo;
-    Nodo derecho;    
-    ArrayList<Integer> siguientes;
-    ArrayList<Integer> ultimos;
-    String lexema;
-    String tipo;
-    boolean aceptacion;
-    boolean esHoja;
-    boolean anulable;
+    private Nodo izquierdo;
+    private Nodo derecho;    
+    private ArrayList<Integer> siguientes;
+    private ArrayList<Integer> ultimos;
+    private String lexema;
+    private String tipo;
+    private boolean aceptacion;
+    private boolean esHoja;
+    private boolean anulable;
 
     public boolean isAnulable() {
         return anulable;
@@ -34,6 +34,11 @@ public class Nodo {
     public Nodo(String lexema, String tipo) {
         this.lexema = lexema;
         this.tipo = tipo;
+        this.anulable=false;
+        this.siguientes= new ArrayList<>();
+        this.ultimos= new ArrayList<>();
+        this.esHoja=false;
+        this.aceptacion=false;
         //verificar que tipo de lexema es para agregar un verdadero o falso en hoja
         //verificar que tipo de lexema es para asignar anulables, pero solo en los que si son, de lo contrario se hace ya cuando este el arbol armado
     }

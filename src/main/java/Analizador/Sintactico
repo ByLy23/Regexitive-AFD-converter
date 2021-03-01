@@ -85,7 +85,7 @@ validaciones::= validaciones validacion
 
 conjunto::= RESCONJ DOSPUNTOS IDENTIFICADOR ASIGNADOR tipoConjunto PTCOMA;
 
-expresion::= IDENTIFICADOR:a ASIGNADOR expReg:b PTCOMA {:Expresiones.add(new Expresion(a,listaNodos));System.out.println(Expresiones.get(0).getListaNodos().get(0).getLexema());main.principio.setListaExpresiones(Expresiones);:};
+expresion::= IDENTIFICADOR:a ASIGNADOR expReg:b PTCOMA {:Expresiones.add(new Expresion(a,listaNodos));System.out.println(Expresiones.get(0).getListaNodos().get(0).getLexema());main.principio.getListaExpresiones().add(new Expresion(a,listaNodos));:};
 
 validacion::= IDENTIFICADOR DOSPUNTOS CADENA PTCOMA;
 
