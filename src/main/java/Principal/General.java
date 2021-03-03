@@ -20,7 +20,7 @@ clase expresion que va a guardar el arbol, y el identificador de la expresion
 clae conjunto que va a guardar el nombre del conjunto, la lista de conjuntos y ya creo xD
 */
     private  ArrayList<Token> listaTokens;
-    private  ArrayList<Error> err;
+    private  ArrayList<Transicion> err;
     private  ArrayList<Expresion> listaExpresiones;
 
     public ArrayList<Token> getListaTokens() {
@@ -31,11 +31,11 @@ clae conjunto que va a guardar el nombre del conjunto, la lista de conjuntos y y
         this.listaTokens = listaTokens;
     }
 
-    public ArrayList<Error> getError() {
+    public ArrayList<Transicion> getError() {
         return err;
     }
 
-    public void setError(ArrayList<Error> error) {
+    public void setError(ArrayList<Transicion> error) {
         this.err = error;
     }
     

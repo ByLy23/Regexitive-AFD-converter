@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -45,10 +46,33 @@ public class Inicio extends javax.swing.JFrame {
       File[] archivos= directorio.listFiles();
       for(File lista: archivos){
           nodo=new DefaultMutableTreeNode(lista.getName());
+          ArrayList<DefaultMutableTreeNode> hijos= obtenerHijos(lista.getPath()); //arraylist devuelta
+          //nodo recursivo for de hijos de nodo.add(hijos);
+          for(DefaultMutableTreeNode hijosAux: hijos){
+                nodo.add(hijosAux);
+            }
           principal.add(nodo);
       }
       modelo= new DefaultTreeModel(principal,true);
       arbolito.setModel(modelo);
+    }
+    private ArrayList<DefaultMutableTreeNode> obtenerHijos(String path){
+        ArrayList<DefaultMutableTreeNode> Arreglo= new ArrayList<>();
+        DefaultMutableTreeNode nodo;
+         File archivos= new File(path);
+         if (archivos.listFiles()==null) {
+            return Arreglo;
+        }
+         File[] arch= archivos.listFiles();
+         for(File lista: arch){
+            nodo=new DefaultMutableTreeNode(lista.getName());
+            ArrayList<DefaultMutableTreeNode> hijos= obtenerHijos(lista.getPath());
+            for(DefaultMutableTreeNode hijosAux: hijos){
+                nodo.add(hijosAux);
+            }
+            Arreglo.add(nodo);
+         }
+        return Arreglo;
     }
     /**
      * This method is called from within the constructor to initialize the form.

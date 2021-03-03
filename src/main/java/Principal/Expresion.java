@@ -17,11 +17,32 @@ import java.util.Stack;
 public class Expresion {
     private String nombreExpresion;
     private ArrayList<Nodo> listaNodos;
-    private Arbol arbolExpresiones;
+    private ArrayList<Siguiente> listaSiguientes;
+    private Transicion tablaTransicion;
+
+    public ArrayList<Siguiente> getListaSiguientes() {
+        return listaSiguientes;
+    }
+
+    public void setListaSiguientes(ArrayList<Siguiente> listaSiguientes) {
+        this.listaSiguientes = listaSiguientes;
+    }
+    private Nodo root;
+
+    public Nodo getRoot() {
+        return root;
+    }
+
+    public void setRoot(Nodo root) {
+        this.root = root;
+    }
+    
 
     public Expresion(String nombreExpresion, ArrayList<Nodo> listaNodos) {
         this.nombreExpresion = nombreExpresion;
         this.listaNodos = listaNodos;
+        listaSiguientes=new ArrayList<>();
+        tablaTransicion= new Transicion();
     }
     
 
@@ -40,17 +61,10 @@ public class Expresion {
     public void setListaNodos(ArrayList<Nodo> listaNodos) {
         this.listaNodos = listaNodos;
     }
-
-    public Arbol getArbolExpresiones() {
-        return arbolExpresiones;
-    }
-
-    public void setArbolExpresiones(Arbol arbolExpresiones) {
-        this.arbolExpresiones = arbolExpresiones;
-    }
     public void generarArbol(){
+        Transicion auxT= new Transicion();
         System.out.println("Generando");
-        listaNodos.add(0, new Nodo("\"#\"","LEXEMA"));//simbolo de finalizacion
+        listaNodos.add(0, new Nodo("\"#\"","LEXEMA",true));//simbolo de finalizacion
         listaNodos.add(listaNodos.size(), new Nodo(".","CONCA"));//concatenacion final
         Stack<Nodo> pilaN= new Stack<>();//pila para lexemas
         Queue<Nodo> colaExp= new LinkedList<>();//cola para expresiones
@@ -65,22 +79,36 @@ public class Expresion {
             
         }
         int numero= pilaN.size();
+        int i=0;
         for(Nodo listaNodo: listaNodos){
+            
             if(listaNodo.getTipo().equals("LEXEMA")){
                 listaNodo.setNumero(numero);
                 listaNodo.getSiguientes().add(numero);
                 listaNodo.getUltimos().add(numero);
+                listaSiguientes.add(new Siguiente(listaNodo.getLexema(), numero));
                 aux.push(listaNodo);
+                i++;
                 numero--;
             }
         }
         pilaN=aux;
         raiz= anidarNodos(pilaN,colaExp);
-        System.out.println(raiz);
+         System.out.println(listaSiguientes);
+        this.root=raiz;
+        this.tablaTransicion=auxT.generarTabla(root.getDerecho().getNumero(), raiz.getSiguientes(), listaSiguientes);
+    }
+    
+    private void agregarSiguiente(ArrayList<Integer> numero,ArrayList<Integer> siguiente){
+       for(int n: numero){
+           for(Siguiente sig: listaSiguientes){
+               if(n==sig.getEstado())
+                   sig.getSiguientes().addAll(siguiente);
+           }
+       }
     }
     private Nodo anidarNodos(Stack<Nodo> pila,Queue<Nodo> cola){
         Nodo raiz;
-        ArrayList<Nodo> fd;
         while(cola.size()>0){
             Nodo aux= cola.poll();
                 Nodo izquierdo;
@@ -101,7 +129,8 @@ public class Expresion {
                     if(derecho.isAnulable())
                         aux.getUltimos().addAll(izquierdo.getUltimos());
                     aux.getUltimos().addAll(derecho.getUltimos());
-                    
+                    //asinacion de siguientes en tabla de siguientes
+                    agregarSiguiente(izquierdo.getUltimos(),derecho.getSiguientes());
                     pila.push(aux);
                     break;
                 case "CERRADKLN":
@@ -113,6 +142,8 @@ public class Expresion {
                     aux.getSiguientes().addAll(izquierdo.getSiguientes());
                     //asignacion ultimos
                     aux.getUltimos().addAll(izquierdo.getUltimos());
+                    //asinacion de siguientes en tabla de siguientes
+                    agregarSiguiente(izquierdo.getUltimos(),izquierdo.getSiguientes());
                     break;
                 case "DISYUNC":
                     izquierdo=pila.pop();
@@ -138,6 +169,8 @@ public class Expresion {
                     aux.getSiguientes().addAll(izquierdo.getSiguientes());
                     //asignacion ultimos
                     aux.getUltimos().addAll(izquierdo.getUltimos());
+                    //asinacion de siguientes en tabla de siguientes
+                    agregarSiguiente(izquierdo.getUltimos(),izquierdo.getSiguientes());
                     pila.push(aux);
                     break;
                 case "INTERROG":

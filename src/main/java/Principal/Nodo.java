@@ -41,6 +41,17 @@ public class Nodo {
         this.aceptacion=false;
         //verificar que tipo de lexema es para agregar un verdadero o falso en hoja
         //verificar que tipo de lexema es para asignar anulables, pero solo en los que si son, de lo contrario se hace ya cuando este el arbol armado
+    } 
+    public Nodo(String lexema, String tipo,boolean aceptacion) {
+        this.lexema = lexema;
+        this.tipo = tipo;
+        this.anulable=false;
+        this.siguientes= new ArrayList<>();
+        this.ultimos= new ArrayList<>();
+        this.esHoja=false;
+        this.aceptacion=aceptacion;
+        //verificar que tipo de lexema es para agregar un verdadero o falso en hoja
+        //verificar que tipo de lexema es para asignar anulables, pero solo en los que si son, de lo contrario se hace ya cuando este el arbol armado
     }
     
 
