@@ -18,7 +18,7 @@ public class Expresion {
     private String nombreExpresion;
     private ArrayList<Nodo> listaNodos;
     private ArrayList<Siguiente> listaSiguientes;
-    private Transicion tablaTransicion;
+    private ArrayList<Transicion> tablaTransicion;
 
     public ArrayList<Siguiente> getListaSiguientes() {
         return listaSiguientes;
@@ -42,7 +42,7 @@ public class Expresion {
         this.nombreExpresion = nombreExpresion;
         this.listaNodos = listaNodos;
         listaSiguientes=new ArrayList<>();
-        tablaTransicion= new Transicion();
+        tablaTransicion= new ArrayList<>();
     }
     
 
@@ -96,9 +96,95 @@ public class Expresion {
         raiz= anidarNodos(pilaN,colaExp);
          System.out.println(listaSiguientes);
         this.root=raiz;
-        this.tablaTransicion=auxT.generarTabla(root.getDerecho().getNumero(), raiz.getSiguientes(), listaSiguientes);
+        //graficar tabla de siguientes
+        graficarSiguientes(listaSiguientes);
+       this.tablaTransicion=generarTabla(root, listaSiguientes);
+       //tabla de transicion es una lista de transiciones 
     }
-    
+    private void graficarSiguientes(ArrayList<Siguiente> siguientes){
+            System.out.println("Lexema  |  Estado  |  Siguientes");
+        for(Siguiente var: siguientes){
+            System.out.print("| "+var.getLexema()+" | "+var.getEstado()+" | ");
+            for(int sig: var.getSiguientes()){
+                System.out.print(sig+", ");
+            }
+            System.out.println("|");
+            System.out.println("-------------------------------------------");
+        }
+    }
+    private ArrayList<Transicion> generarTabla(Nodo raiz, ArrayList<Siguiente> siguientes){
+        ArrayList<Transicion> principal= new ArrayList<>();
+        String nombreEstado="S";
+        int iterador=0;
+        Transicion primeraTransicion= new Transicion(nombreEstado+iterador,raiz.getSiguientes());
+        principal.add(primeraTransicion);
+        for (int i = 0; i < principal.size(); i++) {
+            ArrayList<Integer> arrGuardar= new ArrayList<>();
+           if(!principal.get(i).isVisitado()){
+               for (int j = 0; j < principal.get(i).getListaEstados().size(); j++) {
+                   int auxEstado= principal.get(i).getListaEstados().get(j);
+                   Transicion nueva=new Transicion();
+                   ArrayList<Integer> nuevaArr;
+                   //busco en la tabla de siguientes
+                   for (int sig = 0; sig < listaSiguientes.size(); sig++) {
+                       if(auxEstado==listaSiguientes.get(sig).getEstado()){
+                           nuevaArr=listaSiguientes.get(sig).getSiguientes();
+                           nueva= new Transicion(listaSiguientes.get(sig).getLexema(), nuevaArr);
+                           break;
+                       }
+                   }
+                    if(principal.get(i).getListaTrancisiones().size()<=0){
+                        principal.get(i).getListaTrancisiones().add(nueva);
+                    }else{
+                        //revisa los lexemas en los siguientes, si existe el lexema agrega los que trae
+                        //sino esta el lexema crea uno nuevo
+                    }
+               }
+              // if(principal.get(i).getListaTrancisiones().size()<=0){
+                   
+              // }
+              //buscar primero el lexema en la lista, sino esta pues crear uno nuevo, sino se agrega y se revisa si lo contiene
+              //if compareto arreglo de transiciones para abajo con la de los guardados, sino existe crea un nuevo estado, si existe solo le asigna la letra, comparando arreglos de numeros
+             // principal.add(transicion(nombreEstado+iterador,arrGuardar))
+           }
+           principal.get(i).setVisitado(true);
+        }
+        return null;
+    }
+      /*  ArrayList<Transicion> aux=new ArrayList<>();
+        int i=0;
+        String nombreEstado= "S";
+        aux.add(new Transicion(nombreEstado+""+i,raiz.getSiguientes()));//verificar uno por uno
+        for(Transicion trans: aux){
+            for(int itm: trans.getListatrancisiones()){
+                if(itm==raiz.getDerecho().getNumero())
+                    trans.setAceptacion(true);
+                Siguiente aux1= buscarSig(itm);
+            }
+        }
+        return aux;
+    }
+    private Siguiente buscarSig(int numero){
+        Siguiente aux;
+        ArrayList<Integer> auxI= new ArrayList<>();
+        boolean seguir=false;
+        String nombreLexema="";
+        for(Siguiente list:listaSiguientes){
+            
+            if(numero==list.getEstado()){
+                auxI.addAll(list.getSiguientes());
+                if(!seguir){
+                nombreLexema=list.getLexema();
+                seguir=true;
+                }
+            }
+        }
+        aux= new Siguiente(nombreLexema, numero,auxI);
+        return aux;
+    }
+    private Transicion buscar(ArrayList<Siguiente> obtener){
+        return null;
+    }*/
     private void agregarSiguiente(ArrayList<Integer> numero,ArrayList<Integer> siguiente){
        for(int n: numero){
            for(Siguiente sig: listaSiguientes){
