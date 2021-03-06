@@ -65,35 +65,28 @@ public class Expresion {
         Transicion auxT= new Transicion();
         System.out.println("Generando");
         listaNodos.add(0, new Nodo("\"#\"","LEXEMA",true));//simbolo de finalizacion
-        listaNodos.add(listaNodos.size(), new Nodo(".","CONCA"));//concatenacion final
+        listaNodos.add(0, new Nodo(".","CONCA"));//concatenacion final
         Stack<Nodo> pilaN= new Stack<>();//pila para lexemas
-        Queue<Nodo> colaExp= new LinkedList<>();//cola para expresiones
         Stack<Nodo> aux= new Stack<>();//pila auxiliar para colocar todos los valroes
         Nodo raiz;//donde se va a depositar todos los contactos del arbol
+        int numero=0;
         for (Nodo listaNodo : listaNodos) {
-            if(listaNodo.getTipo().equals("LEXEMA"))
-                pilaN.push(listaNodo);
-            else{
-                colaExp.add(listaNodo);
-            }
-            
+            pilaN.push(listaNodo);
+            if(listaNodo.getLexema().equals("LEXEMA"))
+                numero++;
         }
-        int numero= pilaN.size();
-        int i=0;
         for(Nodo listaNodo: listaNodos){
-            
             if(listaNodo.getTipo().equals("LEXEMA")){
                 listaNodo.setNumero(numero);
                 listaNodo.getSiguientes().add(numero);
                 listaNodo.getUltimos().add(numero);
                 listaSiguientes.add(new Siguiente(listaNodo.getLexema(), numero));
-                aux.push(listaNodo);
-                i++;
-                numero--;
+            numero--;
             }
+            aux.push(listaNodo);
         }
         pilaN=aux;
-        raiz= anidarNodos(pilaN,colaExp);
+        raiz= anidarNodos(pilaN);
          System.out.println(listaSiguientes);
         this.root=raiz;
         //graficar tabla de siguientes
@@ -136,6 +129,14 @@ public class Expresion {
                     if(principal.get(i).getListaTrancisiones().size()<=0){
                         principal.get(i).getListaTrancisiones().add(nueva);
                     }else{
+                        for (int k = 0; k < principal.get(i).getListaTrancisiones().size(); k++) {
+                            String nom= principal.get(i).getListaTrancisiones().get(k).getNombreEstado();
+                            if(nueva.getNombreEstado().equals(nom)){
+                                for (int l = 0; l < principal.get(i).getListaTrancisiones().get(k).getListaEstados().size(); l++) {
+                                    
+                                }
+                            }
+                        }
                         //revisa los lexemas en los siguientes, si existe el lexema agrega los que trae
                         //sino esta el lexema crea uno nuevo
                     }
@@ -193,16 +194,17 @@ public class Expresion {
            }
        }
     }
-    private Nodo anidarNodos(Stack<Nodo> pila,Queue<Nodo> cola){
+    private Nodo anidarNodos(Stack<Nodo> pila){
         Nodo raiz;
-        while(cola.size()>0){
-            Nodo aux= cola.poll();
+        Stack<Nodo> auxPila=new Stack<>();
+        while(pila.size()>0){
+            Nodo aux= pila.pop();
                 Nodo izquierdo;
                 Nodo derecho;
             switch (aux.getTipo()) {
                 case "CONCA":
-                    izquierdo=pila.pop();
-                    derecho=pila.pop();
+                    derecho=auxPila.pop();
+                    izquierdo=auxPila.pop();
                     aux.setIzquierdo(izquierdo);
                     aux.setDerecho(derecho);
                     if (izquierdo.isAnulable() && derecho.isAnulable())//coloco si es anulable el izq y el derecho, de lo contrario es falso
@@ -217,23 +219,23 @@ public class Expresion {
                     aux.getUltimos().addAll(derecho.getUltimos());
                     //asinacion de siguientes en tabla de siguientes
                     agregarSiguiente(izquierdo.getUltimos(),derecho.getSiguientes());
-                    pila.push(aux);
+                    auxPila.push(aux);
                     break;
                 case "CERRADKLN":
-                    izquierdo=pila.pop();
+                    izquierdo=auxPila.pop();
                     aux.setIzquierdo(izquierdo);
                     aux.setAnulable(true);
-                    pila.push(aux);
                     //asignacion siguientes
                     aux.getSiguientes().addAll(izquierdo.getSiguientes());
                     //asignacion ultimos
                     aux.getUltimos().addAll(izquierdo.getUltimos());
                     //asinacion de siguientes en tabla de siguientes
                     agregarSiguiente(izquierdo.getUltimos(),izquierdo.getSiguientes());
+                    auxPila.push(aux);//ver que pasa xD
                     break;
                 case "DISYUNC":
-                    izquierdo=pila.pop();
-                    derecho=pila.pop();
+                    izquierdo=auxPila.pop();
+                    derecho=auxPila.pop();
                     aux.setIzquierdo(izquierdo);
                     aux.setDerecho(derecho);
                     if (izquierdo.isAnulable() || derecho.isAnulable())//coloco si es anulable el izq o el derecho, de lo contrario es falso
@@ -244,10 +246,10 @@ public class Expresion {
                     //asignacion ultimos
                     aux.getUltimos().addAll(izquierdo.getUltimos());
                     aux.getUltimos().addAll(derecho.getUltimos());
-                    pila.push(aux);
+                    auxPila.push(aux);
                     break;
                 case "CERRADPOS":
-                    izquierdo=pila.pop();
+                    izquierdo=auxPila.pop();
                     aux.setIzquierdo(izquierdo);
                     if (izquierdo.isAnulable())//coloco si es anulable el izq, de lo contrario es falso
                         aux.setAnulable(true);
@@ -257,23 +259,24 @@ public class Expresion {
                     aux.getUltimos().addAll(izquierdo.getUltimos());
                     //asinacion de siguientes en tabla de siguientes
                     agregarSiguiente(izquierdo.getUltimos(),izquierdo.getSiguientes());
-                    pila.push(aux);
+                    auxPila.push(aux);
                     break;
                 case "INTERROG":
-                    izquierdo=pila.pop();
+                    izquierdo=auxPila.pop();
                     aux.setIzquierdo(izquierdo);
                     aux.setAnulable(true);
                     //asignacion siguientes
                     aux.getSiguientes().addAll(izquierdo.getSiguientes());
                     //asignacion ultimos
                     aux.getUltimos().addAll(izquierdo.getUltimos());
-                    pila.push(aux);
+                    auxPila.push(aux);
                     break;
                 default:
+                    auxPila.push(aux);
                     break;
             }
         }
-        raiz=pila.pop();
+        raiz=auxPila.pop();
         return raiz;
     }
 }
