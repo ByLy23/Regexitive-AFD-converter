@@ -6,6 +6,8 @@
 package Principal;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -71,8 +73,7 @@ public class Expresion {
         Nodo raiz;//donde se va a depositar todos los contactos del arbol
         int numero=0;
         for (Nodo listaNodo : listaNodos) {
-            pilaN.push(listaNodo);
-            if(listaNodo.getLexema().equals("LEXEMA"))
+            if(listaNodo.getTipo().equals("LEXEMA"))
                 numero++;
         }
         for(Nodo listaNodo: listaNodos){
@@ -109,83 +110,88 @@ public class Expresion {
         ArrayList<Transicion> principal= new ArrayList<>();
         String nombreEstado="S";
         int iterador=0;
-        Transicion primeraTransicion= new Transicion(nombreEstado+iterador,raiz.getSiguientes());
+        int aceptacion= raiz.getDerecho().getNumero();
+        Transicion primeraTransicion= new Transicion(nombreEstado+iterador,"",raiz.getSiguientes());
         principal.add(primeraTransicion);
         for (int i = 0; i < principal.size(); i++) {
-            ArrayList<Integer> arrGuardar= new ArrayList<>();
            if(!principal.get(i).isVisitado()){
-               for (int j = 0; j < principal.get(i).getListaEstados().size(); j++) {
-                   int auxEstado= principal.get(i).getListaEstados().get(j);
-                   Transicion nueva=new Transicion();
-                   ArrayList<Integer> nuevaArr;
-                   //busco en la tabla de siguientes
-                   for (int sig = 0; sig < listaSiguientes.size(); sig++) {
-                       if(auxEstado==listaSiguientes.get(sig).getEstado()){
-                           nuevaArr=listaSiguientes.get(sig).getSiguientes();
-                           nueva= new Transicion(listaSiguientes.get(sig).getLexema(), nuevaArr);
-                           break;
+               //colocar aceptacion a la transicion
+               if(principal.get(i).getListaEstados().contains(aceptacion))
+                   principal.get(i).setAceptacion(true);
+               //fin de colocar aceptacion
+               //agregar todos los lexemas a esto
+               for (int prim = 0; prim < listaSiguientes.size(); prim++) {
+                   String nombreLista= listaSiguientes.get(prim).getLexema();
+                   if(principal.get(i).getListaTrancisiones().isEmpty()){
+                       principal.get(i).getListaTrancisiones().add(new Transicion(nombreLista));
+                   }else{
+                       boolean bandera=true;
+                   for (int lex = 0; lex < principal.get(i).getListaTrancisiones().size(); lex++) {
+                       String nombreTrans= principal.get(i).getListaTrancisiones().get(lex).getNombreTerminal();
+                       if(nombreLista.equals(nombreTrans)){
+                           bandera=false;
+                       }
+                   }  
+                   if(bandera)
+                    principal.get(i).getListaTrancisiones().add(new Transicion(nombreLista));
+                }
+               }
+               //fin de agregar lexemas a el conjutno, ya con esto solo verifico los estados en vez de crear nuevos
+               //agregando estados a la lista de las transiciones
+               for (int j = 0; j < principal.get(i).getListaEstados().size(); j++) {//revisar cada uno de los estados de la lista de el principal
+                   int sigo=principal.get(i).getListaEstados().get(j);//asigna ese numero a una variable
+                   for (int sig = 0; sig < listaSiguientes.size(); sig++) {//empieza a revisar en la lista de siguientes
+                       int lisS= listaSiguientes.get(sig).getEstado();//asigna el valor de la lista en una variable
+                       Siguiente auxS= listaSiguientes.get(sig);//guardo ese siguiente para tener valores mas rapido
+                       if(sigo==lisS){//comparo el estado de la lista de siguientes con el de la lista de estados del principal
+                           for (int k = 0; k < principal.get(i).getListaTrancisiones().size(); k++) {//si son iguales recorro las transiciones
+                               Transicion trans= principal.get(i).getListaTrancisiones().get(k);//empiezo a buscar el nombre de la transicion
+                               if(trans.getNombreTerminal().equals(auxS.getLexema())){//si el nombre es igual a la del siguiente ingreso aca
+                                   for (int l = 0; l < auxS.getSiguientes().size(); l++) {//empiezo a recorrer los estados de la lista de siguientes
+                                       if(!trans.getListaEstados().contains(auxS.getSiguientes().get(l)))//si algun estado no se encuentra ahi lo agrega de lo contrario no
+                                           principal.get(i).getListaTrancisiones().get(k).getListaEstados().add(auxS.getSiguientes().get(l));
+                                   }
+                               }
+                           }
                        }
                    }
-                    if(principal.get(i).getListaTrancisiones().size()<=0){
-                        principal.get(i).getListaTrancisiones().add(nueva);
-                    }else{
-                        for (int k = 0; k < principal.get(i).getListaTrancisiones().size(); k++) {
-                            String nom= principal.get(i).getListaTrancisiones().get(k).getNombreEstado();
-                            if(nueva.getNombreEstado().equals(nom)){
-                                for (int l = 0; l < principal.get(i).getListaTrancisiones().get(k).getListaEstados().size(); l++) {
-                                    
-                                }
-                            }
-                        }
-                        //revisa los lexemas en los siguientes, si existe el lexema agrega los que trae
-                        //sino esta el lexema crea uno nuevo
-                    }
                }
-              // if(principal.get(i).getListaTrancisiones().size()<=0){
-                   
-              // }
-              //buscar primero el lexema en la lista, sino esta pues crear uno nuevo, sino se agrega y se revisa si lo contiene
-              //if compareto arreglo de transiciones para abajo con la de los guardados, sino existe crea un nuevo estado, si existe solo le asigna la letra, comparando arreglos de numeros
-             // principal.add(transicion(nombreEstado+iterador,arrGuardar))
+               //fin de agregar estados
+               
+               //inicio de asignacion de estados
+               for (int j = 0; j < principal.get(i).getListaTrancisiones().size(); j++) {
+                   boolean bandera=true;
+                   Transicion trans= principal.get(i).getListaTrancisiones().get(j);//tomo la transicion de este estado para comparar
+                   if(trans.getListaEstados().size()>0){
+                   for (int k = 0; k < principal.size(); k++) {//ahora reviso en la principal si existe este estado
+                       Transicion otra= principal.get(k);
+                       if(existeTransicion(trans.getListaEstados(), otra.getListaEstados())){
+                           bandera=false;
+                       }
+                   }
+                   if(bandera){
+                    iterador++;
+                    Transicion otraTrans= new Transicion(nombreEstado+iterador,"",trans.getListaEstados());
+                    principal.add(otraTrans);
+                   }
+               }
+               }
+               //fin asignacion de estados
+               
+               System.out.println("ayudaa");
            }
            principal.get(i).setVisitado(true);
         }
+        System.out.println("fin");
         return null;
     }
-      /*  ArrayList<Transicion> aux=new ArrayList<>();
-        int i=0;
-        String nombreEstado= "S";
-        aux.add(new Transicion(nombreEstado+""+i,raiz.getSiguientes()));//verificar uno por uno
-        for(Transicion trans: aux){
-            for(int itm: trans.getListatrancisiones()){
-                if(itm==raiz.getDerecho().getNumero())
-                    trans.setAceptacion(true);
-                Siguiente aux1= buscarSig(itm);
-            }
-        }
-        return aux;
+    private boolean existeTransicion(ArrayList<Integer> principal, ArrayList<Integer> secundario){
+        if( principal==null || secundario==null) return true;
+        if(principal.size()!=secundario.size()) return false;
+        Collections.sort(principal);
+        Collections.sort(secundario);
+        return principal.equals(secundario);
     }
-    private Siguiente buscarSig(int numero){
-        Siguiente aux;
-        ArrayList<Integer> auxI= new ArrayList<>();
-        boolean seguir=false;
-        String nombreLexema="";
-        for(Siguiente list:listaSiguientes){
-            
-            if(numero==list.getEstado()){
-                auxI.addAll(list.getSiguientes());
-                if(!seguir){
-                nombreLexema=list.getLexema();
-                seguir=true;
-                }
-            }
-        }
-        aux= new Siguiente(nombreLexema, numero,auxI);
-        return aux;
-    }
-    private Transicion buscar(ArrayList<Siguiente> obtener){
-        return null;
-    }*/
     private void agregarSiguiente(ArrayList<Integer> numero,ArrayList<Integer> siguiente){
        for(int n: numero){
            for(Siguiente sig: listaSiguientes){
@@ -222,20 +228,20 @@ public class Expresion {
                     auxPila.push(aux);
                     break;
                 case "CERRADKLN":
-                    izquierdo=auxPila.pop();
-                    aux.setIzquierdo(izquierdo);
+                    derecho=auxPila.pop();
+                    aux.setDerecho(derecho);
                     aux.setAnulable(true);
                     //asignacion siguientes
-                    aux.getSiguientes().addAll(izquierdo.getSiguientes());
+                    aux.getSiguientes().addAll(derecho.getSiguientes());
                     //asignacion ultimos
-                    aux.getUltimos().addAll(izquierdo.getUltimos());
+                    aux.getUltimos().addAll(derecho.getUltimos());
                     //asinacion de siguientes en tabla de siguientes
-                    agregarSiguiente(izquierdo.getUltimos(),izquierdo.getSiguientes());
+                    agregarSiguiente(derecho.getUltimos(),derecho.getSiguientes());
                     auxPila.push(aux);//ver que pasa xD
                     break;
                 case "DISYUNC":
-                    izquierdo=auxPila.pop();
                     derecho=auxPila.pop();
+                    izquierdo=auxPila.pop();
                     aux.setIzquierdo(izquierdo);
                     aux.setDerecho(derecho);
                     if (izquierdo.isAnulable() || derecho.isAnulable())//coloco si es anulable el izq o el derecho, de lo contrario es falso
@@ -249,26 +255,26 @@ public class Expresion {
                     auxPila.push(aux);
                     break;
                 case "CERRADPOS":
-                    izquierdo=auxPila.pop();
-                    aux.setIzquierdo(izquierdo);
-                    if (izquierdo.isAnulable())//coloco si es anulable el izq, de lo contrario es falso
+                    derecho=auxPila.pop();
+                    aux.setDerecho(derecho);
+                    if (derecho.isAnulable())//coloco si es anulable el izq, de lo contrario es falso
                         aux.setAnulable(true);
                     //asignacion siguientes
-                    aux.getSiguientes().addAll(izquierdo.getSiguientes());
+                    aux.getSiguientes().addAll(derecho.getSiguientes());
                     //asignacion ultimos
-                    aux.getUltimos().addAll(izquierdo.getUltimos());
+                    aux.getUltimos().addAll(derecho.getUltimos());
                     //asinacion de siguientes en tabla de siguientes
-                    agregarSiguiente(izquierdo.getUltimos(),izquierdo.getSiguientes());
+                    agregarSiguiente(derecho.getUltimos(),derecho.getSiguientes());
                     auxPila.push(aux);
                     break;
                 case "INTERROG":
-                    izquierdo=auxPila.pop();
-                    aux.setIzquierdo(izquierdo);
+                    derecho=auxPila.pop();
+                    aux.setDerecho(derecho);
                     aux.setAnulable(true);
                     //asignacion siguientes
-                    aux.getSiguientes().addAll(izquierdo.getSiguientes());
+                    aux.getSiguientes().addAll(derecho.getSiguientes());
                     //asignacion ultimos
-                    aux.getUltimos().addAll(izquierdo.getUltimos());
+                    aux.getUltimos().addAll(derecho.getUltimos());
                     auxPila.push(aux);
                     break;
                 default:
