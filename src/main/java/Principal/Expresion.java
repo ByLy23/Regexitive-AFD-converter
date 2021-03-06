@@ -177,7 +177,20 @@ public class Expresion {
                }
                }
                //fin asignacion de estados
-               
+               //inicio asignacion nombres
+               for (int j = 0; j < principal.get(i).getListaTrancisiones().size(); j++) {
+                   Transicion trans= principal.get(i).getListaTrancisiones().get(j);
+                   if(trans.getListaEstados().size()>0){
+                       for (int k = 0; k < principal.size(); k++) {
+                           Transicion otra= principal.get(k);
+                           if(existeTransicion(trans.getListaEstados(), otra.getListaEstados())){
+                               principal.get(i).getListaTrancisiones().get(j).setNombreEstado(otra.getNombreEstado());
+                           }
+                       }
+                   }
+               }
+               //fin asignacion nombres
+               //compare con cada una para abajo ya que estan todas xd
                System.out.println("ayudaa");
            }
            principal.get(i).setVisitado(true);

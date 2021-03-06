@@ -13,6 +13,15 @@ import java.util.ArrayList;
  */
 public class Transicion {
     private String nombreEstado;
+    private String nombreTerminal;
+
+    public String getNombreTerminal() {
+        return nombreTerminal;
+    }
+
+    public void setNombreTerminal(String nombreTerminal) {
+        this.nombreTerminal = nombreTerminal;
+    }
     private boolean visitado;
     private ArrayList<Integer> listaEstados;
     private boolean aceptacion;
@@ -71,7 +80,19 @@ public class Transicion {
         this.listaEstados= new ArrayList<>();
     }
   public Transicion(String nombre, ArrayList<Integer> estados){
-      this.nombreEstado=nombre;
+      this.nombreTerminal=nombre;
+      this.listaEstados= estados;
+      this.listaTrancisiones=new ArrayList<>();
+    }
+  public Transicion(String terminal){
+      this.nombreTerminal=terminal;
+      this.listaTrancisiones=new ArrayList<>();
+      this.listaEstados=new ArrayList<>();
+      this.nombreEstado="";
+    }
+  public Transicion(String nombreT,String nombre, ArrayList<Integer> estados){
+      this.nombreTerminal=nombre;
+      this.nombreEstado=nombreT;
       this.listaEstados= estados;
       this.listaTrancisiones=new ArrayList<>();
     }

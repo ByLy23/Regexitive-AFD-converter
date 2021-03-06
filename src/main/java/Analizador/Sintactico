@@ -100,7 +100,7 @@ expReg::= CERRADURAKLEENE:a expReg:e1  {:RESULT= e1;RESULT.add(0,new Nodo(a,"CER
 
 | CERRADURAPOSITIVA:a expReg:e1 {:RESULT= e1;RESULT.add(0,new Nodo(a,"CERRADPOS")); listaNodos.add(new Nodo("+","CERRADPOS"));:}
 
-| INTERROGACION:a expReg:e1 {:RESULT= e1;RESULT.add(0,new Nodo(a,"INTERROG")); :}
+| INTERROGACION:a expReg:e1 {:RESULT= e1;RESULT.add(0,new Nodo(a,"INTERROG"));:}
 
 | SALTOLINEA:e {:RESULT= new ArrayList();RESULT.add(new Nodo(e,"LEXEMA"));:}
 | COMILLASIMPLE:e {:RESULT= new ArrayList();RESULT.add(new Nodo(e,"LEXEMA"));:}
