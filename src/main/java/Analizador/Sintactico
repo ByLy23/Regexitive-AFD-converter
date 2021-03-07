@@ -92,13 +92,13 @@ validacion::= IDENTIFICADOR DOSPUNTOS CADENA PTCOMA;
 tipoConjunto::= CONJCOMAS
 |CONJCAR;
 
-expReg::= CERRADURAKLEENE:a expReg:e1  {:RESULT= e1;RESULT.add(0,new Nodo(a,"CERRADKLN"));listaNodos.add(new Nodo(a,"CERRADKLN"));:}
+expReg::= CERRADURAKLEENE:a expReg:e1  {:RESULT= e1;RESULT.add(0,new Nodo(a,"CERRADKLN"));:}
 
-| CONCATENACION:a expReg:e1 expReg:e2  {:RESULT= e1;RESULT.addAll(e2);RESULT.add(0,new Nodo(a,"CONCA"));listaNodos.add(new Nodo(a,"CONCA"));:}
+| CONCATENACION:a expReg:e1 expReg:e2  {:RESULT= e1;RESULT.addAll(e2);RESULT.add(0,new Nodo(a,"CONCA"));:}
 
-| DISYUNCION:a expReg:e1 expReg:e2  {:RESULT= e1; RESULT.addAll(e2);RESULT.add(0,new Nodo(a,"DISYUNC"));listaNodos.add(new Nodo("|","DISYUNC"));:}
+| DISYUNCION:a expReg:e1 expReg:e2  {:RESULT= e1; RESULT.addAll(e2);RESULT.add(0,new Nodo(a,"DISYUNC"));:}
 
-| CERRADURAPOSITIVA:a expReg:e1 {:RESULT= e1;RESULT.add(0,new Nodo(a,"CERRADPOS")); listaNodos.add(new Nodo("+","CERRADPOS"));:}
+| CERRADURAPOSITIVA:a expReg:e1 {:RESULT= e1;RESULT.add(0,new Nodo(a,"CERRADPOS"));:}
 
 | INTERROGACION:a expReg:e1 {:RESULT= e1;RESULT.add(0,new Nodo(a,"INTERROG"));:}
 

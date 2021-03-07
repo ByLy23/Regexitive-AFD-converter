@@ -6,10 +6,7 @@
 package Principal;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -21,6 +18,33 @@ public class Expresion {
     private ArrayList<Nodo> listaNodos;
     private ArrayList<Siguiente> listaSiguientes;
     private ArrayList<Transicion> tablaTransicion;
+    private Nodo rootThompson;
+    private String graficaThompson;
+    private int contador=0;
+
+    public String getGraficaThompson() {
+        return graficaThompson;
+    }
+
+    public void setGraficaThompson(String graficaThompson) {
+        this.graficaThompson = graficaThompson;
+    }
+
+    public ArrayList<Transicion> getTablaTransicion() {
+        return tablaTransicion;
+    }
+
+    public void setTablaTransicion(ArrayList<Transicion> tablaTransicion) {
+        this.tablaTransicion = tablaTransicion;
+    }
+
+    public Nodo getRootThompson() {
+        return rootThompson;
+    }
+
+    public void setRootThompson(Nodo rootThompson) {
+        this.rootThompson = rootThompson;
+    }
 
     public ArrayList<Siguiente> getListaSiguientes() {
         return listaSiguientes;
@@ -64,18 +88,16 @@ public class Expresion {
         this.listaNodos = listaNodos;
     }
     public void generarArbol(){
-        Transicion auxT= new Transicion();
         System.out.println("Generando");
         listaNodos.add(0, new Nodo("\"#\"","LEXEMA",true));//simbolo de finalizacion
         listaNodos.add(0, new Nodo(".","CONCA"));//concatenacion final
         Stack<Nodo> pilaN= new Stack<>();//pila para lexemas
-        Stack<Nodo> aux= new Stack<>();//pila auxiliar para colocar todos los valroes
+        Stack<Nodo> pilaT= new Stack<>();//pila para Thompson
         Nodo raiz;//donde se va a depositar todos los contactos del arbol
         int numero=0;
-        for (Nodo listaNodo : listaNodos) {
-            if(listaNodo.getTipo().equals("LEXEMA"))
-                numero++;
-        }
+        int temp=0;
+        numero = listaNodos.stream().filter((listaNodo) -> (listaNodo.getTipo().equals("LEXEMA"))).map((_item) -> 1)
+                .reduce(numero, Integer::sum);
         for(Nodo listaNodo: listaNodos){
             if(listaNodo.getTipo().equals("LEXEMA")){
                 listaNodo.setNumero(numero);
@@ -84,27 +106,165 @@ public class Expresion {
                 listaSiguientes.add(new Siguiente(listaNodo.getLexema(), numero));
             numero--;
             }
-            aux.push(listaNodo);
+            pilaN.push(listaNodo);
+            temp++;
+            if(temp>2)
+                pilaT.push(listaNodo);
         }
-        pilaN=aux;
         raiz= anidarNodos(pilaN);
-         System.out.println(listaSiguientes);
+        this.graficaThompson= anidarThompson(pilaT);
+        System.out.println(graficaThompson);
         this.root=raiz;
         //graficar tabla de siguientes
         graficarSiguientes(listaSiguientes);
+        //crea tabla de transiciones
        this.tablaTransicion=generarTabla(root, listaSiguientes);
        //tabla de transicion es una lista de transiciones 
     }
     private void graficarSiguientes(ArrayList<Siguiente> siguientes){
             System.out.println("Lexema  |  Estado  |  Siguientes");
-        for(Siguiente var: siguientes){
-            System.out.print("| "+var.getLexema()+" | "+var.getEstado()+" | ");
-            for(int sig: var.getSiguientes()){
+            siguientes.stream().map((var) -> {
+                System.out.print("| "+var.getLexema()+" | "+var.getEstado()+" | ");
+            return var;
+        }).map((var) -> {
+            var.getSiguientes().forEach((sig) -> {
                 System.out.print(sig+", ");
-            }
+                });
+            return var;
+        }).map((_item) -> {
             System.out.println("|");
+            return _item;
+        }).forEachOrdered((_item) -> {
             System.out.println("-------------------------------------------");
+        });
+    }
+    private String anidarThompson(Stack<Nodo> pila){
+        Thompson primero;
+        String cuerpoThompson="";
+        Thompson segundo;
+        Thompson auxt;
+        Stack<Thompson> auxThompson= new Stack<>();
+        while(pila.size()>0){
+             Nodo aux= pila.pop();
+            switch (aux.getTipo()) {
+                case "CONCA":
+                    primero=auxThompson.pop();
+                    segundo=auxThompson.pop();
+                    auxt=concatenacion(primero,segundo,this.contador);
+                    cuerpoThompson+=auxt.getGrafo();
+                    auxThompson.push(auxt);
+                    break;
+                case "CERRADKLN":
+                    primero=auxThompson.pop();
+                    auxt=cerraduraKleene(primero,this.contador);
+                    cuerpoThompson+=auxt.getGrafo();
+                    auxThompson.push(auxt);
+                    break;
+                case "DISYUNC":
+                    primero=auxThompson.pop();
+                    segundo=auxThompson.pop();
+                    auxt=disyuncion(primero,segundo,this.contador);
+                    cuerpoThompson+=auxt.getGrafo();
+                    auxThompson.push(auxt);
+                    break;
+                case "CERRADPOS":
+                    primero=auxThompson.pop();
+                    auxt=cerraduraPositiva(primero,this.contador);
+                    cuerpoThompson+=auxt.getGrafo();
+                    auxThompson.push(auxt);
+                    break;
+                case "INTERROG":
+                    primero=auxThompson.pop();
+                    auxt=interrogacion(primero,this.contador);
+                    cuerpoThompson+=auxt.getGrafo();
+                    auxThompson.push(auxt);
+                    break;
+                default:
+                    auxt=nuevaHoja(aux.getLexema(),this.contador);
+                    cuerpoThompson+=auxt.getGrafo();
+                    auxThompson.push(auxt);
+                    break;
+            }
+            
         }
+        return cuerpoThompson;
+    }
+    private Thompson concatenacion(Thompson primero, Thompson segundo, int contador){
+        String cadena="";
+        String inicio=primero.getInicio();
+        String fin=segundo.getFin();
+        cadena+=primero.getFin()+" -> "+segundo.getInicio()+" [label=epsilon];\n";
+        return new Thompson(cadena,inicio,fin);
+    }
+    private Thompson disyuncion(Thompson primero, Thompson segundo, int contador){
+        String cadena="";
+        String inicio="S"+contador;
+        contador++;
+        String fin="S"+contador;
+        contador++;
+        this.contador=contador;
+        cadena+=inicio+"[label="+inicio+"];\n"; 
+        cadena+= fin+"[label="+fin+"];\n";
+        cadena+=inicio+" -> "+primero.getInicio()+" [label=epsilon];\n";
+        cadena+=inicio+" -> "+segundo.getInicio()+" [label=epsilon];\n";
+        cadena+=primero.getFin()+" -> "+fin+" [label=epsilon];\n";
+        cadena+=segundo.getFin()+" -> "+fin+" [label=epsilon];\n";
+        return new Thompson(cadena,inicio,fin);
+    }
+     private Thompson interrogacion(Thompson primero, int contador){
+        String cadena="";
+        String inicio="S"+contador;
+        contador++;
+        String fin="S"+contador;
+        contador++;
+        this.contador=contador;
+        cadena+=inicio+"[label="+inicio+"];\n"; 
+        cadena+= fin+"[label="+fin+"];\n";
+        cadena+=inicio+" -> "+primero.getInicio()+" [label=epsilon];\n";
+        cadena+=inicio+" -> "+fin+" [label=epsilon];\n";
+        cadena+=primero.getFin()+" -> "+fin+" [label=epsilon];\n";
+        return new Thompson(cadena,inicio,fin);
+    }
+    private Thompson cerraduraKleene(Thompson primero, int contador){
+        String cadena="";
+        String inicio="S"+contador;
+        contador++;
+        String fin="S"+contador;
+        contador++;
+        this.contador=contador;
+        cadena+=inicio+"[label="+inicio+"];\n"; 
+        cadena+= fin+"[label="+fin+"];\n";
+        cadena+=inicio+" -> "+primero.getInicio()+" [label=epsilon];\n";
+        cadena+=inicio+" -> "+fin+" [label=epsilon];\n";
+        cadena+=primero.getFin()+" -> "+primero.getInicio()+" [label=epsilon];\n";
+        cadena+=primero.getFin()+" -> "+fin+" [label=epsilon];\n";
+        return new Thompson(cadena,inicio,fin);
+    }
+     private Thompson cerraduraPositiva(Thompson primero, int contador){
+        String cadena="";
+        String inicio="S"+contador;
+        contador++;
+        String fin="S"+contador;
+        contador++;
+        this.contador=contador;
+        cadena+=inicio+"[label="+inicio+"];\n"; 
+        cadena+= fin+"[label="+fin+"];\n";
+        cadena+=inicio+" -> "+primero.getInicio()+" [label=epsilon];\n";
+        cadena+=primero.getFin()+" -> "+fin+" [label=epsilon];\n";
+        cadena+=primero.getFin()+" -> "+primero.getInicio()+" [label=epsilon];\n";
+        return new Thompson(cadena,inicio,fin);
+    }
+    private Thompson nuevaHoja(String lexema, int contador){
+        String cadena="";
+        String inicio="S"+contador;
+        contador++;
+        String fin="S"+contador;
+        contador++;
+        cadena+= inicio+"[label="+inicio+"];\n";
+        cadena+= fin+"[label="+fin+"];\n";
+        cadena+= inicio+" -> "+fin+" [label="+lexema+"];\n";
+       this.contador=contador;
+        return new Thompson(cadena, inicio, fin);
     }
     private ArrayList<Transicion> generarTabla(Nodo raiz, ArrayList<Siguiente> siguientes){
         ArrayList<Transicion> principal= new ArrayList<>();
@@ -196,7 +356,7 @@ public class Expresion {
            principal.get(i).setVisitado(true);
         }
         System.out.println("fin");
-        return null;
+        return principal;
     }
     private boolean existeTransicion(ArrayList<Integer> principal, ArrayList<Integer> secundario){
         if( principal==null || secundario==null) return true;
@@ -206,12 +366,11 @@ public class Expresion {
         return principal.equals(secundario);
     }
     private void agregarSiguiente(ArrayList<Integer> numero,ArrayList<Integer> siguiente){
-       for(int n: numero){
-           for(Siguiente sig: listaSiguientes){
-               if(n==sig.getEstado())
-                   sig.getSiguientes().addAll(siguiente);
-           }
-       }
+        numero.forEach((n) -> {
+            listaSiguientes.stream().filter((sig) -> (n==sig.getEstado())).forEachOrdered((sig) -> {
+                sig.getSiguientes().addAll(siguiente);
+            });
+        });
     }
     private Nodo anidarNodos(Stack<Nodo> pila){
         Nodo raiz;

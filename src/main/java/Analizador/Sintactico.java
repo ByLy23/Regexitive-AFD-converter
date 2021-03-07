@@ -434,7 +434,7 @@ class CUP$Sintactico$actions {
 		int e1left = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
 		int e1right = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
 		ArrayList e1 = (ArrayList)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
-		RESULT= e1;RESULT.add(0,new Nodo(a,"INTERROG")); listaNodos.add(new Nodo("?","INTERROG"));
+		RESULT= e1;RESULT.add(0,new Nodo(a,"INTERROG"));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expReg",10, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -446,7 +446,7 @@ class CUP$Sintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
 		String e = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
-		RESULT= new ArrayList();RESULT.add(new Nodo(e,"LEXEMA")); listaNodos.add(new Nodo(e,"LEXEMA"));
+		RESULT= new ArrayList();RESULT.add(new Nodo(e,"LEXEMA"));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expReg",10, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -458,7 +458,7 @@ class CUP$Sintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
 		String e = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
-		RESULT= new ArrayList();RESULT.add(new Nodo(e,"LEXEMA"));listaNodos.add(new Nodo(e,"LEXEMA"));
+		RESULT= new ArrayList();RESULT.add(new Nodo(e,"LEXEMA"));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expReg",10, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -470,7 +470,7 @@ class CUP$Sintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
 		String e = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
-		RESULT= new ArrayList(); RESULT.add(new Nodo(e,"LEXEMA"));listaNodos.add(new Nodo(e,"LEXEMA"));
+		RESULT= new ArrayList(); RESULT.add(new Nodo(e,"LEXEMA"));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expReg",10, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -482,7 +482,7 @@ class CUP$Sintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
 		String e = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
-		RESULT= new ArrayList();RESULT.add(new Nodo(e,"LEXEMA")); listaNodos.add(new Nodo(e,"LEXEMA"));
+		RESULT= new ArrayList();RESULT.add(new Nodo(e,"LEXEMA")); 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expReg",10, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -494,7 +494,7 @@ class CUP$Sintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
 		String e = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
-		RESULT= new ArrayList();RESULT.add(new Nodo(e,"LEXEMA"));listaNodos.add(new Nodo(e,"LEXEMA"));
+		RESULT= new ArrayList();RESULT.add(new Nodo(e,"LEXEMA"));
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expReg",10, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
