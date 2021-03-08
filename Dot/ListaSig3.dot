@@ -1,0 +1,6 @@
+digraph ListaSiguientes{
+rankdir=LR
+node[shape= record];
+cabeza[label="{Lexema | Estado | Siguientes}| {# |2|{}}| {A |1|{2}}"];
+
+}

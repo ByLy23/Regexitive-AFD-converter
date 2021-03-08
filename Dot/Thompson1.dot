@@ -1,0 +1,39 @@
+digraph Thompson{
+S0[label="S0"];
+S1[label="S1"];
+S0 -> S1 [label="letra"];
+S2[label="S2"];
+S3[label="S3"];
+S2 -> S3 [label="letra"];
+S3 -> S0 [label="epsilon"];
+S4[label="S4"];
+S5[label="S5"];
+S4 -> S5 [label="letra"];
+S5 -> S2 [label="epsilon"];
+S6[label="S6"];
+S7[label="S7"];
+S6 -> S7 [label="digito"];
+S7 -> S4 [label="epsilon"];
+S8[label="S8"];
+S9[label="S9"];
+S8 -> S9 [label="digito"];
+S9 -> S6 [label="epsilon"];
+S10[label="S10"];
+S11[label="S11"];
+S10 -> S11 [label="digito"];
+S11 -> S8 [label="epsilon"];
+S12[label="S12"];
+S13[label="S13"];
+S12 -> S13 [label="-"];
+S14[label="S14"];
+S15[label="S15"];
+S14 -> S12 [label="epsilon"];
+S14 -> S15 [label="epsilon"];
+S13 -> S15 [label="epsilon"];
+S15 -> S10 [label="epsilon"];
+S16[label="S16"];
+S17[label="S17"];
+S16 -> S17 [label="posibles"];
+S17 -> S14 [label="epsilon"];
+
+}

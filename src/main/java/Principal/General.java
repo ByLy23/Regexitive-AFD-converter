@@ -5,6 +5,7 @@
  */
 package Principal;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -53,7 +54,7 @@ clae conjunto que va a guardar el nombre del conjunto, la lista de conjuntos y y
         this.listaExpresiones = listaExpresiones;
     }
     
-    public void generarArbol(){
+    public void generarArbol() throws IOException{
         System.out.println("Estoy generandome awanta un casho");
         for(Expresion itm:listaExpresiones){
             System.out.println(itm.getNombreExpresion());

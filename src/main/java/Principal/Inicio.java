@@ -8,9 +8,12 @@ package Principal;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -25,6 +28,7 @@ import javax.swing.tree.DefaultTreeModel;
  */
 public class Inicio extends javax.swing.JFrame {
 
+    private int contCursor=0;
     /**
      * Creates new form Inicio
      */
@@ -103,10 +107,11 @@ public class Inicio extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         arbolito = new javax.swing.JTree();
         jPanel3 = new javax.swing.JPanel();
-        imag = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        como = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        imag = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -210,22 +215,39 @@ public class Inicio extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 204));
 
+        como.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Arbol", "ListaSig", "Thompson", "Transicion", "AFD" }));
+        como.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comoActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("<");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText(">");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         imag.setBackground(new java.awt.Color(204, 204, 204));
         imag.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imag.setToolTipText("");
+        imag.setAutoscrolls(true);
         imag.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jButton1.setText("<");
-
-        jButton2.setText(">");
+        jScrollPane4.setViewportView(imag);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -234,10 +256,10 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(imag, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(como, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(206, 206, 206)
                                 .addComponent(jButton1)
@@ -249,10 +271,10 @@ public class Inicio extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(como, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(imag, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addComponent(jScrollPane4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -285,8 +307,8 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -342,11 +364,11 @@ public class Inicio extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -355,11 +377,15 @@ public class Inicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-    interprete(area.getText());    
-    for(Token itm:  main.principio.getListaTokens()){
-        System.out.println(itm.getLexema()+" "+itm.getTipo());
-    }
-    main.principio.generarArbol();        // TODO add your handling code here:
+
+        main.principio.cont=0;
+        main.principio= new General();
+        interprete(area.getText());   
+        try {
+            main.principio.generarArbol();        // TODO add your handling code here:
+        } catch (Exception ex) {
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -377,6 +403,202 @@ public class Inicio extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "CREADO Y DISENIADO POR: \nBYRON ANTONIO ORELLANA ALBUREZ\n201700733");
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void MostrarTodos(int contador){
+        switch(como.getSelectedIndex()){
+        case 0:
+            try{
+            ImageIcon ims;Thread.sleep(500);
+            imag.setIcon(new ImageIcon("ERRORES_201700733/acc.png"));
+            imag.revalidate();
+            imag.repaint();
+            ims=new ImageIcon("ARBOLES_201700733/Arbol"+contador+".png");
+            ims.getImage().flush();
+            ims= new ImageIcon("ARBOLES_201700733/Arbol"+contador+".png");
+            Thread.sleep(500);
+            imag.setIcon(ims);
+            imag.revalidate();
+            imag.repaint();
+            }catch(Exception ex){
+                System.out.println(ex);
+            }
+            break;
+        case 1:
+            try{
+            ImageIcon ims;Thread.sleep(500);
+            imag.setIcon(new ImageIcon("ERRORES_201700733/acc.png"));
+            imag.revalidate();
+            imag.repaint();
+            ims=new ImageIcon("SIGUIENTES_201700733/ListaSig"+contador+".png");
+            ims.getImage().flush();
+            ims= new ImageIcon("SIGUIENTES_201700733/ListaSig"+contador+".png");
+            Thread.sleep(500);
+            imag.setIcon(ims);
+            imag.revalidate();
+            imag.repaint();
+            }catch(Exception ex){
+                System.out.println(ex);
+            }
+            break;  
+        case 2:
+            try{
+            ImageIcon ims;Thread.sleep(500);
+            imag.setIcon(new ImageIcon("ERRORES_201700733/acc.png"));
+            imag.revalidate();
+            imag.repaint();
+            ims=new ImageIcon("AFND_201700733/Thompson"+contador+".png");
+            ims.getImage().flush();
+            ims= new ImageIcon("AFND_201700733/Thompson"+contador+".png");
+            Thread.sleep(500);
+            imag.setIcon(ims);
+            imag.revalidate();
+            imag.repaint();
+            }catch(Exception ex){
+                System.out.println(ex);
+            }
+            break;
+        case 3:
+            try{
+            ImageIcon ims;Thread.sleep(500);
+            imag.setIcon(new ImageIcon("ERRORES_201700733/acc.png"));
+            imag.revalidate();
+            imag.repaint();
+            ims=new ImageIcon("TRANSICIONES_201700733/Transicion"+contador+".png");
+            ims.getImage().flush();
+            ims= new ImageIcon("TRANSICIONES_201700733/Transicion"+contador+".png");
+            Thread.sleep(500);
+            imag.setIcon(ims);
+            imag.revalidate();
+            imag.repaint();
+            }catch(Exception ex){
+                System.out.println(ex);
+            }
+            break;
+        case 4:
+             try{
+            ImageIcon ims;Thread.sleep(500);
+            imag.setIcon(new ImageIcon("ERRORES_201700733/acc.png"));
+            imag.revalidate();
+            imag.repaint();
+            ims=new ImageIcon("AFD_201700733/AFD"+contador+".png");
+            ims.getImage().flush();
+            ims= new ImageIcon("AFD_201700733/AFD"+contador+".png");
+            Thread.sleep(500);
+            imag.setIcon(ims);
+            imag.revalidate();
+            imag.repaint();
+            }catch(Exception ex){
+                System.out.println(ex);
+            }
+            break;
+    }
+    }
+    
+    
+    private void comoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comoActionPerformed
+    switch(como.getSelectedIndex()){
+        case 0:
+            try{
+            ImageIcon ims;Thread.sleep(500);
+            imag.setIcon(new ImageIcon("ERRORES_201700733/acc.png"));
+            imag.revalidate();
+            imag.repaint();
+            ims=new ImageIcon("ARBOLES_201700733/Arbol0.png");
+            ims.getImage().flush();
+            ims= new ImageIcon("ARBOLES_201700733/Arbol0.png");
+            Thread.sleep(500);
+            imag.setIcon(ims);
+            imag.revalidate();
+            imag.repaint();
+            }catch(Exception ex){
+                System.out.println(ex);
+            }
+            break;
+        case 1:
+            try{
+            ImageIcon ims;Thread.sleep(500);
+            imag.setIcon(new ImageIcon("ERRORES_201700733/acc.png"));
+            imag.revalidate();
+            imag.repaint();
+            ims=new ImageIcon("SIGUIENTES_201700733/ListaSig0.png");
+            ims.getImage().flush();
+            ims= new ImageIcon("SIGUIENTES_201700733/ListaSig0.png");
+            Thread.sleep(500);
+            imag.setIcon(ims);
+            imag.revalidate();
+            imag.repaint();
+            }catch(Exception ex){
+                System.out.println(ex);
+            }
+            break;  
+        case 2:
+            try{
+            ImageIcon ims;Thread.sleep(500);
+            imag.setIcon(new ImageIcon("ERRORES_201700733/acc.png"));
+            imag.revalidate();
+            imag.repaint();
+            ims=new ImageIcon("AFND_201700733/Thompson0.png");
+            ims.getImage().flush();
+            ims= new ImageIcon("AFND_201700733/Thompson0.png");
+            Thread.sleep(500);
+            imag.setIcon(ims);
+            imag.revalidate();
+            imag.repaint();
+            }catch(Exception ex){
+                System.out.println(ex);
+            }
+            break;
+        case 3:
+            try{
+            ImageIcon ims;Thread.sleep(500);
+            imag.setIcon(new ImageIcon("ERRORES_201700733/acc.png"));
+            imag.revalidate();
+            imag.repaint();
+            ims=new ImageIcon("TRANSICIONES_201700733/Transicion0.png");
+            ims.getImage().flush();
+            ims= new ImageIcon("TRANSICIONES_201700733/Transicion0.png");
+            Thread.sleep(500);
+            imag.setIcon(ims);
+            imag.revalidate();
+            imag.repaint();
+            }catch(Exception ex){
+                System.out.println(ex);
+            }
+            break;
+        case 4:
+             try{
+            ImageIcon ims;Thread.sleep(500);
+            imag.setIcon(new ImageIcon("ERRORES_201700733/acc.png"));
+            imag.revalidate();
+            imag.repaint();
+            ims=new ImageIcon("AFD_201700733/AFD0.png");
+            ims.getImage().flush();
+            ims= new ImageIcon("AFD_201700733/AFD0.png");
+            Thread.sleep(500);
+            imag.setIcon(ims);
+            imag.revalidate();
+            imag.repaint();
+            }catch(Exception ex){
+                System.out.println(ex);
+            }
+            break;
+    }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    contCursor--;
+    if(contCursor<=0)        
+        contCursor=0;
+        MostrarTodos(contCursor);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+ contCursor++;
+    if(contCursor>=main.principio.cont)        
+        contCursor=main.principio.cont-1; 
+        MostrarTodos(contCursor);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private static void interprete(String texto){
         Analizador.Sintactico scanner;
@@ -477,12 +699,12 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JMenu abrir;
     private javax.swing.JTree arbolito;
     private javax.swing.JTextArea area;
+    private javax.swing.JComboBox<String> como;
     private javax.swing.JLabel imag;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
@@ -508,6 +730,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }

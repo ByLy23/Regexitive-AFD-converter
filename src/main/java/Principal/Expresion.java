@@ -5,6 +5,9 @@
  */
 package Principal;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
@@ -87,7 +90,7 @@ public class Expresion {
     public void setListaNodos(ArrayList<Nodo> listaNodos) {
         this.listaNodos = listaNodos;
     }
-    public void generarArbol(){
+    public void generarArbol() throws IOException{
         System.out.println("Generando");
         listaNodos.add(0, new Nodo("\"#\"","LEXEMA",true));//simbolo de finalizacion
         listaNodos.add(0, new Nodo(".","CONCA"));//concatenacion final
@@ -121,9 +124,8 @@ public class Expresion {
        //graficar todo
        graficar(this.root,this.graficaThompson,this.listaSiguientes,this.tablaTransicion);
     }
-    private void graficar(Nodo raiz, String thompson, ArrayList<Siguiente> listaSigs,ArrayList<Transicion> tablaTransicion){
+    private void graficar(Nodo raiz, String thompson, ArrayList<Siguiente> listaSigs,ArrayList<Transicion> tablaTransicion) throws IOException{
         graficarArbol(raiz);
-        System.out.println(contenidoArbol);
         graficarThompson(thompson);
         graficarListaSigs(listaSigs);
         System.out.println(listStrings);
@@ -131,6 +133,20 @@ public class Expresion {
         graficarAFD(tablaTransicion);
         //crear grafo de arbol
         contenidoArbol="digraph Arbol{\n"+cuerpoArbol+"\n}";
+        try (FileWriter file = new FileWriter("Dot/Arbol"+main.principio.cont+".dot")) {
+            PrintWriter impresion= new PrintWriter(file);
+            impresion.println(contenidoArbol);
+        }
+            String comando= "dot -Tpng Dot/Arbol"+main.principio.cont+".dot -o ARBOLES_201700733/Arbol"+main.principio.cont+".png -Gcharset=latin1";
+            Runtime rt= Runtime.getRuntime();
+            rt.exec(comando);
+            
+        /*
+         FileWriter file= new FileWriter("bTree.dot");
+            file.close();
+            String comando= "dot -Tjpg bTree.dot -o bTree.jpg -Gcharset=latin1";
+            Runtime rt= Runtime.getRuntime();
+            */
         //hacer metodo para graficar que no me acuerdo equis de
         //crear grafo de thompson
         //crear grafo de listaSiginetes
@@ -145,30 +161,38 @@ public class Expresion {
        if(raiz!=null){
        graficarArbol(raiz.getIzquierdo());
        //mostrar en graphviz
-       contenidoArbol+=raiz.hashCode()+"[shape=circle label=\""+raiz.getLexema().replace("\"", "")+
+       cuerpoArbol+=raiz.hashCode()+"[shape=circle label=\""+raiz.getLexema().replaceAll("[\"{}]", "")+
                "\nNumero: "+raiz.getNumero()+"\nSiguientes: "+
                raiz.getSiguientes().toString()+"\nUltimos: "
                +raiz.getUltimos().toString()+
                "\nAnulable?: "+raiz.isAnulable()+"\"];\n";
        if(raiz.getIzquierdo()!=null)
-           contenidoArbol+=raiz.hashCode()+" -> "+raiz.getIzquierdo().hashCode()+"\n";
+           cuerpoArbol+=raiz.hashCode()+" -> "+raiz.getIzquierdo().hashCode()+"\n";
        if(raiz.getDerecho()!=null)
-           contenidoArbol+=raiz.hashCode()+" -> "+raiz.getDerecho().hashCode()+"\n";
+           cuerpoArbol+=raiz.hashCode()+" -> "+raiz.getDerecho().hashCode()+"\n";
         graficarArbol(raiz.getDerecho());
        }
     }
     String contenidoThompson="";
-    private void graficarThompson(String thompson){
+    private void graficarThompson(String thompson) throws IOException{
         contenidoThompson="digraph Thompson{\n"+thompson+"\n}";
         //aca hacer metodo de llamar que ahorita lo traigo equis de
         System.out.println(contenidoThompson);
+        
+        try (FileWriter file = new FileWriter("Dot/Thompson"+main.principio.cont+".dot")) {
+            PrintWriter impresion= new PrintWriter(file);
+            impresion.println(contenidoThompson);
+        }
+            String comando= "dot -Tpng Dot/Thompson"+main.principio.cont+".dot -o AFND_201700733/Thompson"+main.principio.cont+".png -Gcharset=latin1";
+            Runtime rt= Runtime.getRuntime();
+            rt.exec(comando);
     }
     String cuerpoListaSigs="";
     String listStrings="";
-    private void graficarListaSigs(ArrayList<Siguiente> listaSigs){
+    private void graficarListaSigs(ArrayList<Siguiente> listaSigs) throws IOException{
          cuerpoListaSigs+="cabeza[label=\"{Lexema | Estado | Siguientes}";
             listaSigs.stream().map((var) -> {
-                cuerpoListaSigs+="| {"+var.getLexema().replace("\"", "")+" |"+var.getEstado()+"|{";
+                cuerpoListaSigs+="| {"+var.getLexema().replaceAll("[\"{}]", "")+" |"+var.getEstado()+"|{";
             return var;
         }).map((var) -> {
             var.getSiguientes().forEach((sig) -> {
@@ -183,14 +207,23 @@ public class Expresion {
             cuerpoListaSigs+="\"];\n";
             listStrings="digraph ListaSiguientes{\nrankdir=LR\n" +
 "node[shape= record];\n"+cuerpoListaSigs+"\n}";
+            try (FileWriter file = new FileWriter("Dot/ListaSig"+main.principio.cont+".dot")) {
+            PrintWriter impresion= new PrintWriter(file);
+            impresion.println(listStrings);
+        }
+            String comando= "dot -Tpng Dot/ListaSig"+main.principio.cont+".dot -o SIGUIENTES_201700733/ListaSig"+main.principio.cont+".png -Gcharset=latin1";
+            Runtime rt= Runtime.getRuntime();
+            rt.exec(comando);
     }
+    
+    
     String cuerpoTrans="";
     String todoTrans="";
-    private void graficarTransicion(ArrayList<Transicion> tablaTransicion){
+    private void graficarTransicion(ArrayList<Transicion> tablaTransicion) throws IOException{
         cuerpoTrans+="Trans[label=\"{Estado";
         for(Transicion trans: tablaTransicion){
             trans.getListaTrancisiones().forEach((traans) -> {
-                cuerpoTrans+="|"+traans.getNombreTerminal().replace("\"", "");
+                cuerpoTrans+="|"+traans.getNombreTerminal().replaceAll("[\"{}]", "");
             });
            cuerpoTrans+="}";
            break;
@@ -211,10 +244,17 @@ public class Expresion {
         todoTrans="digraph Transiciones{\nrankdir=LR\n" +
 "node[shape= record];\n"+cuerpoTrans+"\n}";
         System.out.println(todoTrans);
+        try (FileWriter file = new FileWriter("Dot/Transicion"+main.principio.cont+".dot")) {
+            PrintWriter impresion= new PrintWriter(file);
+            impresion.println(todoTrans);
+        }
+            String comando= "dot -Tpng Dot/Transicion"+main.principio.cont+".dot -o TRANSICIONES_201700733/Transicion"+main.principio.cont+".png -Gcharset=latin1";
+            Runtime rt= Runtime.getRuntime();
+            rt.exec(comando);
     }
     String todoAFD="";
     String cuerpoAFD="";
-    private void graficarAFD(ArrayList<Transicion> tablaTransicion){
+    private void graficarAFD(ArrayList<Transicion> tablaTransicion) throws IOException{
         for(Transicion trans:tablaTransicion){
             cuerpoAFD+=trans.getNombreEstado()+"[label=\""+trans.getNombreEstado()
                     +"\"";
@@ -224,28 +264,18 @@ public class Expresion {
                 cuerpoAFD+=" shape=circle];\n";
             for(Transicion traans: trans.getListaTrancisiones()){
                 if(!traans.getNombreEstado().equals(""))
-                cuerpoAFD+=trans.getNombreEstado()+" -> "+traans.getNombreEstado()+"[label=\""+traans.getNombreTerminal().replace("\"", "")+"\"];\n";
+                cuerpoAFD+=trans.getNombreEstado()+" -> "+traans.getNombreEstado()+"[label=\""+traans.getNombreTerminal().replaceAll("[\"{}]", "")+"\"];\n";
             }
         }
         todoAFD="digraph AFD{\n"+cuerpoAFD+"\n}";
         System.out.println(todoAFD);
-    }
-    private void graficarSiguientes(ArrayList<Siguiente> siguientes){
-            System.out.println("Lexema  |  Estado  |  Siguientes");
-            siguientes.stream().map((var) -> {
-                System.out.print("| "+var.getLexema()+" | "+var.getEstado()+" | ");
-            return var;
-        }).map((var) -> {
-            var.getSiguientes().forEach((sig) -> {
-                System.out.print(sig+", ");
-                });
-            return var;
-        }).map((_item) -> {
-            System.out.println("|");
-            return _item;
-        }).forEachOrdered((_item) -> {
-            System.out.println("-------------------------------------------");
-        });
+        try (FileWriter file = new FileWriter("Dot/AFD"+main.principio.cont+".dot")) {
+            PrintWriter impresion= new PrintWriter(file);
+            impresion.println(todoAFD);
+        }
+            String comando= "dot -Tpng Dot/AFD"+main.principio.cont+".dot -o AFD_201700733/AFD"+main.principio.cont+".png -Gcharset=latin1";
+            Runtime rt= Runtime.getRuntime();
+            rt.exec(comando);
     }
     private String anidarThompson(Stack<Nodo> pila){
         Thompson primero;
@@ -302,7 +332,7 @@ public class Expresion {
         String cadena="";
         String inicio=primero.getInicio();
         String fin=segundo.getFin();
-        cadena+=primero.getFin()+" -> "+segundo.getInicio()+" [label=epsilon];\n";
+        cadena+=primero.getFin()+" -> "+segundo.getInicio()+" [label=\"epsilon\"];\n";
         return new Thompson(cadena,inicio,fin);
     }
     private Thompson disyuncion(Thompson primero, Thompson segundo, int contador){
@@ -312,12 +342,12 @@ public class Expresion {
         String fin="S"+contador;
         contador++;
         this.contador=contador;
-        cadena+=inicio+"[label="+inicio+"];\n"; 
-        cadena+= fin+"[label="+fin+"];\n";
-        cadena+=inicio+" -> "+primero.getInicio()+" [label=epsilon];\n";
-        cadena+=inicio+" -> "+segundo.getInicio()+" [label=epsilon];\n";
-        cadena+=primero.getFin()+" -> "+fin+" [label=epsilon];\n";
-        cadena+=segundo.getFin()+" -> "+fin+" [label=epsilon];\n";
+        cadena+=inicio+"[label=\""+inicio+"\"];\n"; 
+        cadena+= fin+"[label=\""+fin+"\"];\n";
+        cadena+=inicio+" -> "+primero.getInicio()+" [label=\"epsilon\"];\n";
+        cadena+=inicio+" -> "+segundo.getInicio()+" [label=\"epsilon\"];\n";
+        cadena+=primero.getFin()+" -> "+fin+" [label=\"epsilon\"];\n";
+        cadena+=segundo.getFin()+" -> "+fin+" [label=\"epsilon\"];\n";
         return new Thompson(cadena,inicio,fin);
     }
      private Thompson interrogacion(Thompson primero, int contador){
@@ -327,11 +357,11 @@ public class Expresion {
         String fin="S"+contador;
         contador++;
         this.contador=contador;
-        cadena+=inicio+"[label="+inicio+"];\n"; 
-        cadena+= fin+"[label="+fin+"];\n";
-        cadena+=inicio+" -> "+primero.getInicio()+" [label=epsilon];\n";
-        cadena+=inicio+" -> "+fin+" [label=epsilon];\n";
-        cadena+=primero.getFin()+" -> "+fin+" [label=epsilon];\n";
+        cadena+=inicio+"[label=\""+inicio+"\"];\n"; 
+        cadena+= fin+"[label=\""+fin+"\"];\n";
+        cadena+=inicio+" -> "+primero.getInicio()+" [label=\"epsilon\"];\n";
+        cadena+=inicio+" -> "+fin+" [label=\"epsilon\"];\n";
+        cadena+=primero.getFin()+" -> "+fin+" [label=\"epsilon\"];\n";
         return new Thompson(cadena,inicio,fin);
     }
     private Thompson cerraduraKleene(Thompson primero, int contador){
@@ -341,12 +371,12 @@ public class Expresion {
         String fin="S"+contador;
         contador++;
         this.contador=contador;
-        cadena+=inicio+"[label="+inicio+"];\n"; 
-        cadena+= fin+"[label="+fin+"];\n";
-        cadena+=inicio+" -> "+primero.getInicio()+" [label=epsilon];\n";
-        cadena+=inicio+" -> "+fin+" [label=epsilon];\n";
-        cadena+=primero.getFin()+" -> "+primero.getInicio()+" [label=epsilon];\n";
-        cadena+=primero.getFin()+" -> "+fin+" [label=epsilon];\n";
+        cadena+=inicio+"[label=\""+inicio+"\"];\n"; 
+        cadena+= fin+"[label=\""+fin+"\"];\n";
+        cadena+=inicio+" -> "+primero.getInicio()+" [label=\"epsilon\"];\n";
+        cadena+=inicio+" -> "+fin+" [label=\"epsilon\"];\n";
+        cadena+=primero.getFin()+" -> "+primero.getInicio()+" [label=\"epsilon\"];\n";
+        cadena+=primero.getFin()+" -> "+fin+" [label=\"epsilon\"];\n";
         return new Thompson(cadena,inicio,fin);
     }
      private Thompson cerraduraPositiva(Thompson primero, int contador){
@@ -356,11 +386,11 @@ public class Expresion {
         String fin="S"+contador;
         contador++;
         this.contador=contador;
-        cadena+=inicio+"[label="+inicio+"];\n"; 
-        cadena+= fin+"[label="+fin+"];\n";
-        cadena+=inicio+" -> "+primero.getInicio()+" [label=epsilon];\n";
-        cadena+=primero.getFin()+" -> "+fin+" [label=epsilon];\n";
-        cadena+=primero.getFin()+" -> "+primero.getInicio()+" [label=epsilon];\n";
+        cadena+=inicio+"[label=\""+inicio+"\"];\n"; 
+        cadena+= fin+"[label=\""+fin+"\"];\n";
+        cadena+=inicio+" -> "+primero.getInicio()+" [label=\"epsilon\"];\n";
+        cadena+=primero.getFin()+" -> "+fin+" [label=\"epsilon\"];\n";
+        cadena+=primero.getFin()+" -> "+primero.getInicio()+" [label=\"epsilon\"];\n";
         return new Thompson(cadena,inicio,fin);
     }
     private Thompson nuevaHoja(String lexema, int contador){
@@ -369,9 +399,9 @@ public class Expresion {
         contador++;
         String fin="S"+contador;
         contador++;
-        cadena+= inicio+"[label="+inicio+"];\n";
-        cadena+= fin+"[label="+fin+"];\n";
-        cadena+= inicio+" -> "+fin+" [label="+lexema+"];\n";
+        cadena+= inicio+"[label=\""+inicio+"\"];\n";
+        cadena+= fin+"[label=\""+fin+"\"];\n";
+        cadena+= inicio+" -> "+fin+" [label=\""+lexema.replaceAll("[\"{}]", "")+"\"];\n";
        this.contador=contador;
         return new Thompson(cadena, inicio, fin);
     }
