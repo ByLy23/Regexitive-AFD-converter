@@ -113,13 +113,122 @@ public class Expresion {
         }
         raiz= anidarNodos(pilaN);
         this.graficaThompson= anidarThompson(pilaT);
-        System.out.println(graficaThompson);
         this.root=raiz;
         //graficar tabla de siguientes
-        graficarSiguientes(listaSiguientes);
         //crea tabla de transiciones
        this.tablaTransicion=generarTabla(root, listaSiguientes);
        //tabla de transicion es una lista de transiciones 
+       //graficar todo
+       graficar(this.root,this.graficaThompson,this.listaSiguientes,this.tablaTransicion);
+    }
+    private void graficar(Nodo raiz, String thompson, ArrayList<Siguiente> listaSigs,ArrayList<Transicion> tablaTransicion){
+        graficarArbol(raiz);
+        System.out.println(contenidoArbol);
+        graficarThompson(thompson);
+        graficarListaSigs(listaSigs);
+        System.out.println(listStrings);
+        graficarTransicion(tablaTransicion);
+        graficarAFD(tablaTransicion);
+        //crear grafo de arbol
+        contenidoArbol="digraph Arbol{\n"+cuerpoArbol+"\n}";
+        //hacer metodo para graficar que no me acuerdo equis de
+        //crear grafo de thompson
+        //crear grafo de listaSiginetes
+        //crear grafo de tablaTrabsicion
+        //crear grafo de AFD
+        main.principio.cont++;
+    }
+    String contenidoArbol="";
+    String cuerpoArbol="";
+    private void graficarArbol(Nodo raiz){
+       //
+       if(raiz!=null){
+       graficarArbol(raiz.getIzquierdo());
+       //mostrar en graphviz
+       contenidoArbol+=raiz.hashCode()+"[shape=circle label=\""+raiz.getLexema().replace("\"", "")+
+               "\nNumero: "+raiz.getNumero()+"\nSiguientes: "+
+               raiz.getSiguientes().toString()+"\nUltimos: "
+               +raiz.getUltimos().toString()+
+               "\nAnulable?: "+raiz.isAnulable()+"\"];\n";
+       if(raiz.getIzquierdo()!=null)
+           contenidoArbol+=raiz.hashCode()+" -> "+raiz.getIzquierdo().hashCode()+"\n";
+       if(raiz.getDerecho()!=null)
+           contenidoArbol+=raiz.hashCode()+" -> "+raiz.getDerecho().hashCode()+"\n";
+        graficarArbol(raiz.getDerecho());
+       }
+    }
+    String contenidoThompson="";
+    private void graficarThompson(String thompson){
+        contenidoThompson="digraph Thompson{\n"+thompson+"\n}";
+        //aca hacer metodo de llamar que ahorita lo traigo equis de
+        System.out.println(contenidoThompson);
+    }
+    String cuerpoListaSigs="";
+    String listStrings="";
+    private void graficarListaSigs(ArrayList<Siguiente> listaSigs){
+         cuerpoListaSigs+="cabeza[label=\"{Lexema | Estado | Siguientes}";
+            listaSigs.stream().map((var) -> {
+                cuerpoListaSigs+="| {"+var.getLexema().replace("\"", "")+" |"+var.getEstado()+"|{";
+            return var;
+        }).map((var) -> {
+            var.getSiguientes().forEach((sig) -> {
+                cuerpoListaSigs+=sig;
+                });
+            return var;
+        }).map((_item) -> {
+            return _item;
+        }).forEachOrdered((_item) -> {
+            cuerpoListaSigs+="}}";
+        });
+            cuerpoListaSigs+="\"];\n";
+            listStrings="digraph ListaSiguientes{\nrankdir=LR\n" +
+"node[shape= record];\n"+cuerpoListaSigs+"\n}";
+    }
+    String cuerpoTrans="";
+    String todoTrans="";
+    private void graficarTransicion(ArrayList<Transicion> tablaTransicion){
+        cuerpoTrans+="Trans[label=\"{Estado";
+        for(Transicion trans: tablaTransicion){
+            trans.getListaTrancisiones().forEach((traans) -> {
+                cuerpoTrans+="|"+traans.getNombreTerminal().replace("\"", "");
+            });
+           cuerpoTrans+="}";
+           break;
+        }
+        for(Transicion trans:tablaTransicion){
+            if(trans.isAceptacion())
+                 cuerpoTrans+="|{*"+trans.getNombreEstado()+
+                    "\n"+trans.getListaEstados().toString();
+            else
+                cuerpoTrans+="|{"+trans.getNombreEstado()+
+                    "\n"+trans.getListaEstados().toString();
+            for(Transicion traans:trans.getListaTrancisiones()){
+                cuerpoTrans+="|"+traans.getNombreEstado()+"\n"+traans.getListaEstados().toString();
+            }
+            cuerpoTrans+="}";
+        }
+        cuerpoTrans+="\"];\n";
+        todoTrans="digraph Transiciones{\nrankdir=LR\n" +
+"node[shape= record];\n"+cuerpoTrans+"\n}";
+        System.out.println(todoTrans);
+    }
+    String todoAFD="";
+    String cuerpoAFD="";
+    private void graficarAFD(ArrayList<Transicion> tablaTransicion){
+        for(Transicion trans:tablaTransicion){
+            cuerpoAFD+=trans.getNombreEstado()+"[label=\""+trans.getNombreEstado()
+                    +"\"";
+            if(trans.isAceptacion())
+                cuerpoAFD+=" shape=doublecircle];\n";
+            else
+                cuerpoAFD+=" shape=circle];\n";
+            for(Transicion traans: trans.getListaTrancisiones()){
+                if(!traans.getNombreEstado().equals(""))
+                cuerpoAFD+=trans.getNombreEstado()+" -> "+traans.getNombreEstado()+"[label=\""+traans.getNombreTerminal().replace("\"", "")+"\"];\n";
+            }
+        }
+        todoAFD="digraph AFD{\n"+cuerpoAFD+"\n}";
+        System.out.println(todoAFD);
     }
     private void graficarSiguientes(ArrayList<Siguiente> siguientes){
             System.out.println("Lexema  |  Estado  |  Siguientes");

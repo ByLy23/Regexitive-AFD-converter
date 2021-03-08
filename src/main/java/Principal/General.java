@@ -22,7 +22,7 @@ clae conjunto que va a guardar el nombre del conjunto, la lista de conjuntos y y
     private  ArrayList<Token> listaTokens;
     private  ArrayList<Transicion> err;
     private  ArrayList<Expresion> listaExpresiones;
-
+    public int cont=0;
     public ArrayList<Token> getListaTokens() {
         return listaTokens;
     }
