@@ -1,95 +1,95 @@
 digraph Arbol{
-1936300896[shape=circle label="\'
+1451176722[shape=circle label="\'
 Numero: 1
 Siguientes: [1]
 Ultimos: [1]
 Anulable?: false"];
-1740697948[shape=circle label=".
+1801656298[shape=circle label=".
 Numero: 0
 Siguientes: [1]
 Ultimos: [2, 3, 4, 5, 6]
 Anulable?: false"];
-1740697948 -> 1936300896
-1740697948 -> 1841281840
-1841281840[shape=circle label="+
+1801656298 -> 1451176722
+1801656298 -> 821560736
+821560736[shape=circle label="+
 Numero: 0
 Siguientes: [2, 3, 4, 5, 6]
 Ultimos: [2, 3, 4, 5, 6]
 Anulable?: false"];
-1841281840 -> 549002690
-523513902[shape=circle label=" 
+821560736 -> 1151598325
+1810608848[shape=circle label=" 
 Numero: 2
 Siguientes: [2]
 Ultimos: [2]
 Anulable?: false"];
-549002690[shape=circle label="|
+1151598325[shape=circle label="|
 Numero: 0
 Siguientes: [2, 3, 4, 5, 6]
 Ultimos: [2, 3, 4, 5, 6]
 Anulable?: false"];
-549002690 -> 523513902
-549002690 -> 2141087877
-1877486205[shape=circle label="digito
+1151598325 -> 1810608848
+1151598325 -> 415511552
+1751246781[shape=circle label="digito
 Numero: 3
 Siguientes: [3]
 Ultimos: [3]
 Anulable?: false"];
-2141087877[shape=circle label="|
+415511552[shape=circle label="|
 Numero: 0
 Siguientes: [3, 4, 5, 6]
 Ultimos: [3, 4, 5, 6]
 Anulable?: false"];
-2141087877 -> 1877486205
-2141087877 -> 123170127
-962369739[shape=circle label="mayus
+415511552 -> 1751246781
+415511552 -> 862906386
+94740893[shape=circle label="mayus
 Numero: 4
 Siguientes: [4]
 Ultimos: [4]
 Anulable?: false"];
-123170127[shape=circle label="|
+862906386[shape=circle label="|
 Numero: 0
 Siguientes: [4, 5, 6]
 Ultimos: [4, 5, 6]
 Anulable?: false"];
-123170127 -> 962369739
-123170127 -> 898241829
-463436331[shape=circle label="minus
+862906386 -> 94740893
+862906386 -> 1022943517
+1539548464[shape=circle label="minus
 Numero: 5
 Siguientes: [5]
 Ultimos: [5]
 Anulable?: false"];
-898241829[shape=circle label="|
+1022943517[shape=circle label="|
 Numero: 0
 Siguientes: [5, 6]
 Ultimos: [5, 6]
 Anulable?: false"];
-898241829 -> 463436331
-898241829 -> 656298242
-656298242[shape=circle label="\n
+1022943517 -> 1539548464
+1022943517 -> 531228706
+531228706[shape=circle label="\n
 Numero: 6
 Siguientes: [6]
 Ultimos: [6]
 Anulable?: false"];
-2061049834[shape=circle label=".
+933763843[shape=circle label=".
 Numero: 0
 Siguientes: [1]
 Ultimos: [7]
 Anulable?: false"];
-2061049834 -> 1740697948
-2061049834 -> 522133161
-522133161[shape=circle label="\'
+933763843 -> 1801656298
+933763843 -> 1277420770
+1277420770[shape=circle label="\'
 Numero: 7
 Siguientes: [7]
 Ultimos: [7]
 Anulable?: false"];
-2142335299[shape=circle label=".
+168764019[shape=circle label=".
 Numero: 0
 Siguientes: [1]
 Ultimos: [8]
 Anulable?: false"];
-2142335299 -> 2061049834
-2142335299 -> 712161782
-712161782[shape=circle label="#
+168764019 -> 933763843
+168764019 -> 1513563112
+1513563112[shape=circle label="#
 Numero: 8
 Siguientes: [8]
 Ultimos: [8]

@@ -1,9 +1,21 @@
 digraph Transiciones{
 rankdir=LR
 node[shape= record];
-Trans[label="{Estado|#|A}|{*S0
+Trans[label="{Estado|#|simbols|minus|mayus}|{S0
 [1, 2]|
-[]|S0
-[1, 2]}"];
+[]|
+[]|S1
+[1, 2, 3]|S1
+[1, 2, 3]}|{S1
+[1, 2, 3]|
+[]|S2
+[3, 4]|S1
+[1, 2, 3]|S1
+[1, 2, 3]}|{*S2
+[3, 4]|
+[]|S2
+[3, 4]|
+[]|
+[]}"];
 
 }

@@ -43,7 +43,7 @@ public class Inicio extends javax.swing.JFrame {
     }
 
     private void agregarArbolito(){
-      File directorio= new File("src\\main\\java");
+      File directorio= new File(".");
       DefaultMutableTreeNode principal = new DefaultMutableTreeNode("Raiz");
       DefaultTreeModel modelo;
       DefaultMutableTreeNode nodo;
@@ -112,6 +112,7 @@ public class Inicio extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         imag = new javax.swing.JLabel();
+        tequierowe = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -249,6 +250,8 @@ public class Inicio extends javax.swing.JFrame {
         imag.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jScrollPane4.setViewportView(imag);
 
+        tequierowe.setText("0");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -259,7 +262,10 @@ public class Inicio extends javax.swing.JFrame {
                     .addComponent(jScrollPane4)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(como, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(como, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(tequierowe))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(206, 206, 206)
                                 .addComponent(jButton1)
@@ -271,7 +277,9 @@ public class Inicio extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addComponent(como, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(como, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tequierowe))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -386,6 +394,8 @@ public class Inicio extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         }
+        JOptionPane.showMessageDialog(null, "Completado");
+        arbolito.updateUI();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -419,6 +429,7 @@ public class Inicio extends javax.swing.JFrame {
             imag.setIcon(ims);
             imag.revalidate();
             imag.repaint();
+            this.tequierowe.setText("Arbol"+contador);
             }catch(Exception ex){
                 System.out.println(ex);
             }
@@ -436,6 +447,7 @@ public class Inicio extends javax.swing.JFrame {
             imag.setIcon(ims);
             imag.revalidate();
             imag.repaint();
+            this.tequierowe.setText("ListaSig"+contador);
             }catch(Exception ex){
                 System.out.println(ex);
             }
@@ -453,6 +465,7 @@ public class Inicio extends javax.swing.JFrame {
             imag.setIcon(ims);
             imag.revalidate();
             imag.repaint();
+            this.tequierowe.setText("Thompson"+contador);
             }catch(Exception ex){
                 System.out.println(ex);
             }
@@ -470,6 +483,7 @@ public class Inicio extends javax.swing.JFrame {
             imag.setIcon(ims);
             imag.revalidate();
             imag.repaint();
+            this.tequierowe.setText("Transicion"+contador);
             }catch(Exception ex){
                 System.out.println(ex);
             }
@@ -487,6 +501,7 @@ public class Inicio extends javax.swing.JFrame {
             imag.setIcon(ims);
             imag.revalidate();
             imag.repaint();
+            this.tequierowe.setText("AFD"+contador);
             }catch(Exception ex){
                 System.out.println(ex);
             }
@@ -510,6 +525,7 @@ public class Inicio extends javax.swing.JFrame {
             imag.setIcon(ims);
             imag.revalidate();
             imag.repaint();
+            this.tequierowe.setText("Arbol0");
             }catch(Exception ex){
                 System.out.println(ex);
             }
@@ -527,6 +543,7 @@ public class Inicio extends javax.swing.JFrame {
             imag.setIcon(ims);
             imag.revalidate();
             imag.repaint();
+            this.tequierowe.setText("ListaSig0");
             }catch(Exception ex){
                 System.out.println(ex);
             }
@@ -544,6 +561,7 @@ public class Inicio extends javax.swing.JFrame {
             imag.setIcon(ims);
             imag.revalidate();
             imag.repaint();
+            this.tequierowe.setText("Thompson0");
             }catch(Exception ex){
                 System.out.println(ex);
             }
@@ -561,6 +579,7 @@ public class Inicio extends javax.swing.JFrame {
             imag.setIcon(ims);
             imag.revalidate();
             imag.repaint();
+            this.tequierowe.setText("Transicion0");
             }catch(Exception ex){
                 System.out.println(ex);
             }
@@ -578,6 +597,7 @@ public class Inicio extends javax.swing.JFrame {
             imag.setIcon(ims);
             imag.revalidate();
             imag.repaint();
+            this.tequierowe.setText("AFD0");
             }catch(Exception ex){
                 System.out.println(ex);
             }
@@ -732,5 +752,6 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel tequierowe;
     // End of variables declaration//GEN-END:variables
 }

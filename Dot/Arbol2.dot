@@ -1,26 +1,56 @@
 digraph Arbol{
-442803419[shape=circle label="*
+1861177629[shape=circle label="+
 Numero: 0
-Siguientes: [1]
-Ultimos: [1]
-Anulable?: true"];
-442803419 -> 1625886139
-1625886139[shape=circle label="A
+Siguientes: [1, 2]
+Ultimos: [1, 2]
+Anulable?: false"];
+1861177629 -> 1231821570
+841502147[shape=circle label="mayus
 Numero: 1
 Siguientes: [1]
 Ultimos: [1]
 Anulable?: false"];
-55733648[shape=circle label=".
+1231821570[shape=circle label="|
 Numero: 0
 Siguientes: [1, 2]
-Ultimos: [2]
+Ultimos: [1, 2]
 Anulable?: false"];
-55733648 -> 442803419
-55733648 -> 1760275827
-1760275827[shape=circle label="#
+1231821570 -> 841502147
+1231821570 -> 6522696
+6522696[shape=circle label="minus
 Numero: 2
 Siguientes: [2]
 Ultimos: [2]
+Anulable?: false"];
+345000416[shape=circle label=".
+Numero: 0
+Siguientes: [1, 2]
+Ultimos: [3]
+Anulable?: false"];
+345000416 -> 1861177629
+345000416 -> 1024324731
+1024324731[shape=circle label="+
+Numero: 0
+Siguientes: [3]
+Ultimos: [3]
+Anulable?: false"];
+1024324731 -> 1295769676
+1295769676[shape=circle label="simbols
+Numero: 3
+Siguientes: [3]
+Ultimos: [3]
+Anulable?: false"];
+1375631204[shape=circle label=".
+Numero: 0
+Siguientes: [1, 2]
+Ultimos: [4]
+Anulable?: false"];
+1375631204 -> 345000416
+1375631204 -> 1203239922
+1203239922[shape=circle label="#
+Numero: 4
+Siguientes: [4]
+Ultimos: [4]
 Anulable?: false"];
 
 }

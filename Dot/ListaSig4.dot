@@ -1,6 +1,6 @@
 digraph ListaSiguientes{
 rankdir=LR
-node[shape= record];
-cabeza[label="{Lexema | Estado | Siguientes}| {# |2|{}}| {A |1|{12}}"];
+node[shape= record width=1 height=1];
+cabeza[label="{Lexema | Estado | Siguientes}| {# |2|{}}| {A |1|{1,2,}}"];
 
 }

@@ -1,23 +1,23 @@
 digraph Arbol{
-958569520[shape=circle label="+
+2098917687[shape=circle label="+
 Numero: 0
 Siguientes: [1]
 Ultimos: [1]
 Anulable?: false"];
-958569520 -> 270235180
-270235180[shape=circle label="A
+2098917687 -> 1940577222
+1940577222[shape=circle label="A
 Numero: 1
 Siguientes: [1]
 Ultimos: [1]
 Anulable?: false"];
-1603194641[shape=circle label=".
+549779571[shape=circle label=".
 Numero: 0
 Siguientes: [1]
 Ultimos: [2]
 Anulable?: false"];
-1603194641 -> 958569520
-1603194641 -> 150177650
-150177650[shape=circle label="#
+549779571 -> 2098917687
+549779571 -> 206619779
+206619779[shape=circle label="#
 Numero: 2
 Siguientes: [2]
 Ultimos: [2]

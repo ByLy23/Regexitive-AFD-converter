@@ -72,5 +72,5 @@ asignador= "-" ({blanco})* ">"
 
      \n {yychar=1;}
 
-    . { System.out.println("Este es un error lexico: "+yytext()+", en la linea: "+yyline+", en la columna: "+yychar);}
+    . { System.out.println("Este es un error lexico: "+yytext()+", en la linea: "+yyline+", en la columna: "+yychar); main.principio.getErrores().add(new Error("LEXICO",yytext()));}
 }

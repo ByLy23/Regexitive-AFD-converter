@@ -1,12 +1,29 @@
 digraph Thompson{
 S0[label="S0"];
 S1[label="S1"];
-S0 -> S1 [label="A"];
+S0 -> S1 [label="mayus"];
 S2[label="S2"];
 S3[label="S3"];
-S2 -> S0 [label="epsilon"];
-S2 -> S3 [label="epsilon"];
-S1 -> S0 [label="epsilon"];
-S1 -> S3 [label="epsilon"];
+S2 -> S3 [label="minus"];
+S4[label="S4"];
+S5[label="S5"];
+S4 -> S2 [label="epsilon"];
+S4 -> S0 [label="epsilon"];
+S3 -> S5 [label="epsilon"];
+S1 -> S5 [label="epsilon"];
+S6[label="S6"];
+S7[label="S7"];
+S6 -> S4 [label="epsilon"];
+S5 -> S7 [label="epsilon"];
+S5 -> S4 [label="epsilon"];
+S8[label="S8"];
+S9[label="S9"];
+S8 -> S9 [label="simbols"];
+S10[label="S10"];
+S11[label="S11"];
+S10 -> S8 [label="epsilon"];
+S9 -> S11 [label="epsilon"];
+S9 -> S8 [label="epsilon"];
+S11 -> S6 [label="epsilon"];
 
 }

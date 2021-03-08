@@ -196,7 +196,7 @@ public class Expresion {
             return var;
         }).map((var) -> {
             var.getSiguientes().forEach((sig) -> {
-                cuerpoListaSigs+=sig;
+                cuerpoListaSigs+=sig+",";
                 });
             return var;
         }).map((_item) -> {
@@ -206,7 +206,7 @@ public class Expresion {
         });
             cuerpoListaSigs+="\"];\n";
             listStrings="digraph ListaSiguientes{\nrankdir=LR\n" +
-"node[shape= record];\n"+cuerpoListaSigs+"\n}";
+"node[shape= record width=1 height=1];\n"+cuerpoListaSigs+"\n}";
             try (FileWriter file = new FileWriter("Dot/ListaSig"+main.principio.cont+".dot")) {
             PrintWriter impresion= new PrintWriter(file);
             impresion.println(listStrings);
